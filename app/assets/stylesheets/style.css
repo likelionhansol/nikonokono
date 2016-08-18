@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+footer {
+  font-size: 0.8em;
+}
+
+#c_map {
+  background-color: #c097e6;
+}
+
+#abc {
+  width: 100%;
+  height: 100%;
+}
+
+.leftmargin {
+  padding-left: 20px;
+}
+
+.board_box {
+  background-color: #f5f2f2;
+}
+
+.detail_boxes {
+  background-color: #fff;
+}
+
+::-webkit-input-placeholder {
+  font-size: 0.8em;
+}
+:-moz-placeholder {
+  font-size: 0.8em;
+}
+:-ms-input-placeholder {
+  font-size: 0.8em;
+}

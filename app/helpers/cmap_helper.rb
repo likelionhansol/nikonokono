@@ -1,0 +1,2 @@
+module CmapHelper
+end

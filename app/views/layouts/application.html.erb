@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>코인 노래방 찾는 니코노코노</title>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+    </head>
+    <body>
+      <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="/home/index" class="brand-logo">Logo</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/cmap/loca">코인 노래방 찾기</a></li>
+            <li><a href="/showme/list">쇼미더 코인</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+        <%= yield %>
+        <footer class="page-footer">
+          <div class="footer-copyright">
+            <div class="container">
+            © 2016 Hansung University & LikeLion Copyright.
+            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+          </div>
+        </footer>
+
+        <script>
+        /* select 시작 */
+        $(document).ready(function() {
+          $('select').material_select();
+          $('.modal-trigger').leanModal();
+           $(".button-collapse").sideNav();
+        });
+        </script>
+    </body>
+</html>
