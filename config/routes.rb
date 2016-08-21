@@ -3,7 +3,12 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'home/index'
+
+  # map
   get 'cmap/loca'
+  get 'cmap/search'
+  get 'cmap/map_search'
+
   get 'showme/list'
   get 'showme/nikowrite'
   get 'showme/listdetail' # 코드 합칠 때 :id 식으로 바꿔주삼
