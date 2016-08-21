@@ -26,6 +26,16 @@ class CmapController < ApplicationController
     @links = Array.new
     @links = xml_doc.xpath("//address")
 
+    # Geocode Method 추가 (주소 > 위/경도 좌표 변환)
+    def toLatLng (address)
+      # ...
+
+    end
+
+
+
+
+
   end
 
 
@@ -46,11 +56,11 @@ class CmapController < ApplicationController
         http.request(req)
       }
 
-      # @ddd = res.body
 
       xml_doc = Nokogiri::XML(res.body)
-      # @links = xml_doc.xpath("//title")
-      @body = xml_doc.xpath(res.body)
+      @json_doc = Hash.from_xml(xml_doc).to_json
+
+#      @links = xml_doc.xpath("//title")
 
 
   end

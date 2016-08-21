@@ -167,6 +167,7 @@ DEPENDENCIES
   font-awesome-sass
   jbuilder (~> 2.0)
   jquery-rails
+  json
   material_icons
   materialize-sass
   rails (= 4.2.6)
