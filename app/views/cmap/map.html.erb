@@ -5,7 +5,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-
   <title>간단한 지도 표시하기</title>
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=h40urbpdCMGXC07cN0rf"></script>
 
@@ -53,7 +52,7 @@
         }
       }
       */
-      //현재 위치 정보 알아보는 메소드
+      // 현재 위치 정보 알아보는 메소드
       function showData(){
         navigator.geolocation.getCurrentPosition(success, fail);  //현재 위치 정보를 조사하고 성공 실패 했을시 호출되는 함수 설정
       }
@@ -94,7 +93,28 @@
         var console = document.getElementById("console");
         console.innerHTML += msg+"<br/>";
       }
-      // 마크 출력.
+
+      // 마크 출력
+      /*
+      var conoArray = <%=@resultArrayHash%>;
+      for (c in conoArray) {
+        var temp = JSON.parse('#{raw(c.to_json)}');
+        var x = temp.getElementByName('x');
+        var y = temp.getElementByName('y');
+        var pos = new naver.maps.LatLng(x, y);
+        var markerOptions = {
+          position: pos,
+          icon: {
+            url: 'http://static.naver.net/maps/v3/pin_default.png',
+            size: new naver.maps.Size(22, 35),
+            anchor: new naver.maps.Point(11, 35)
+          }
+        };
+        var marker = new naver.maps.Marker(markerOptions);
+        marker.setMap(map);
+      }
+      */
+
       var cityHall = new naver.maps.LatLng(37.5666805, 126.9784147);
       var markerOptions = {
         position: cityHall,
@@ -105,7 +125,8 @@
         }
       };
       var marker = new naver.maps.Marker(markerOptions);
-      marker.setMap(map); // 추가
+      marker.setMap(map);
+
     </script>
 
     <button onclick="showData()">현재 위치 확인</button>
@@ -115,7 +136,6 @@
       <div class="form-group">
         <label>내 주변 노래방 검색</label>
         <input type="text" class="form-control" name="query" placeholder="위치">
-        <input type="hidden" class="form-control" name="coord" value="tm128">
       </div>
       <button type="submit" class="btn btn-default" value="">검색</button>
     </form>
