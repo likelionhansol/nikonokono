@@ -5,9 +5,8 @@ Rails.application.routes.draw do
   get 'home/index'
 
   # map
-  get 'cmap/loca'
+  get 'cmap/map'
   get 'cmap/search'
-  get 'cmap/map_search'
 
   get 'showme/list'
   get 'showme/nikowrite'

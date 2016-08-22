@@ -1,18 +1,23 @@
 <meta charset="UTF-8">
 
-
-<% @links.each do |l| %>
-  <%= l.inner_text %>
+<h3><b>주소들 출력</b></h3>
+<% @address.each do |a| %>
+  <%= a.inner_text %>
 <% end %>
 
 <br><br><br><br><br>
 
-<%= @links.at(0).inner_text %>
+<h3><b>주소중 첫번째 인자 출력</b></h3>
+<%= @address.at(0).inner_text %>
 
-<form method="GET" action="/cmap/map_search" style="margin-top:50px;">
-  <div class="form-group">
-    <label>위/경도 좌표로 변환</label>
-    <input type="hidden" class="form-control" name="query" value="<%=@links.at(0).inner_text%>">
-  </div>
-  <button type="submit" class="btn btn-default" value="">검색</button>
-</form>
+<br><br><br><br><br>
+
+<h3><b>주소의 첫번째 인자의 좌표값 출력</b></h3>
+<%= @test %>
+
+<br><br><br><br><br>
+
+<h3><b>주소들 Hash에 담아서 출력</b></h3>
+<% @resultArrayHash.each do |r| %>
+  <%= r[:title] %> (<%= r[:x] %> , <%= r[:y]%>) <br>
+<% end %>
