@@ -5,8 +5,9 @@
         <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
         <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
         <%= csrf_meta_tags %>
+        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=h40urbpdCMGXC07cN0rf"></script>
     </head>
-    <body>
+    <body onload="showData()">
       <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper">
