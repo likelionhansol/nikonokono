@@ -59,11 +59,11 @@ class CmapController < ApplicationController
       json_doc = JSON.parse(res.body)
 
       # 파싱된 객체(json_doc)로부터 위/경도 좌표(x, y) 추출
-      x = json_doc['result']['items'].at(0)['point']['x']
-      y = json_doc['result']['items'].at(0)['point']['y']
+      lng = json_doc['result']['items'].at(0)['point']['x']
+      lat = json_doc['result']['items'].at(0)['point']['y']
 
       # 위/경도 좌표값 (x, y) 리턴
-      return x, y
+      return lat, lng
     end
 
 
@@ -74,7 +74,7 @@ class CmapController < ApplicationController
     uri = URI(URI.encode(queryUrl))
 
     req = Net::HTTP::Get.new(uri)
-    req['Content-Type'] = "application/json"
+    req['Content-Type'] = "application/xml"
     req['X-Naver-Client-Id'] = "h40urbpdCMGXC07cN0rf"
     req['X-Naver-Client-Secret'] = "UafuNNDgZ6"
 
@@ -92,8 +92,8 @@ class CmapController < ApplicationController
     address.each_with_index do |a, index|
       hashTest = Hash.new
       hashTest[:title] = title.at(index).inner_text
-      hashTest[:x] = addressToLatLng(a.inner_text).at(0)
-      hashTest[:y] = addressToLatLng(a.inner_text).at(1)
+      hashTest[:lat] = addressToLatLng(a.inner_text).at(0)
+      hashTest[:lng] = addressToLatLng(a.inner_text).at(1)
       @resultArrayHash.push(hashTest)
     end
   end
@@ -162,8 +162,8 @@ class CmapController < ApplicationController
     @address.each_with_index do |a, index|
       hashTest = Hash.new
       hashTest[:title] = @title.at(index).inner_text
-      hashTest[:x] = addressToLatLng(a.inner_text).at(0)
-      hashTest[:y] = addressToLatLng(a.inner_text).at(1)
+      hashTest[:lat] = addressToLatLng(a.inner_text).at(0)
+      hashTest[:lng] = addressToLatLng(a.inner_text).at(1)
       @resultArrayHash.push(hashTest)
     end
 
