@@ -24,71 +24,30 @@
   </div>
 </div>
 
-<div id="test">
+<div id="content">
   <% @resultArrayHash.each do |r| %>
     <%=r%> <br>
   <% end %>
-  <br><br><br><br>
-
-  <%= @resultArrayHash.at(0)[:lat]%><br>
-  현재 위치 : <%= @currentAddress %><br>
-  입력 lat : <%= @currentLat %><br>
-  입력 lng : <%= @currentLng %>
-
 
 </div>
 
-
 <script type="text/javascript">
-
-  // 현재 위치 정보 알아보는 메소드
-  function showData(){
-    navigator.geolocation.getCurrentPosition(success, fail);  //현재 위치 정보를 조사하고 성공 실패 했을시 호출되는 함수 설정
-  }
-  function success(position) { //성공시
-    console.log("위치정보 확인 성공!");
-    for(var property in position.coords) { //반복문 돌면서 출력
-      console.log(property+":"+position.coords[property]);
-    }
-    var currentLat = position.coords["latitude"];
-    var currentLng = position.coords["longitude"];
-    console.log(currentLat +","+ currentLng);
-    currentLat = currentLat.toString();
-    currentLng = currentLng.toString();
-
-    if (currentLat !== null && currentLng !== null) {
-      $.ajax({
-        url: '/cmap/map',
-        type: 'GET',
-        dataType: "JSON",
-        data: {lat : currentLat, lng : currentLng},
-        success: function(res) {
-          if (res.ImportResponse !== void 0) {
-            console.log('Success: ' + res);
-          } else if (res.Fault !== void 0) {
-            console.log('Fault: ' + res);
-          }
-        },
-        error: function(request,status,error){
-          console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-        }
-      });
-    } else {
-      alert("FUCK");
-    }
-    //var url="http://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&sensor=false";
-    //location.href = url;//페이지 이동하기
+  $(document).ready(function() {
+    showMap();
+  });
+  function showMap() {
+    var lat = '<%=@currentLat%>';
+    var lng = '<%=@currentLng%>';
+    console.log("In Javascript pos : "+lat +","+ lng);
     var mapOptions = {
-      center: new naver.maps.LatLng(currentLat, currentLng),
+      center: new naver.maps.LatLng(lat, lng),
       zoom: 10
     };
     var map = new naver.maps.Map('map', mapOptions);
 
-    // mark cono
-    for (var i=0; i<'<%=@resultArrayHash.size()%>'; i++) {
-      var pos = new naver.maps.LatLng('<%=@resultArrayHash.as_json.at(0)['lat']%>', '<%=@resultArrayHash.as_json.at(0)['lng']%>');
-      console.log(pos);
-
+    '<% @resultArrayHash.each do |r| %>'
+      var pos = new naver.maps.LatLng('<%= r.as_json['lat'] %>', '<%= r.as_json['lng'] %>');
+      console.log("lat : " + '<%= r.as_json['lat'] %>' + " , lon : " + '<%= r.as_json['lng'] %>');
       var markerOptions = {
         position: pos,
         map : map,
@@ -99,32 +58,7 @@
         }
       };
       var marker = new naver.maps.Marker(markerOptions);
-    }
+    '<% end %>'
   }
-  //실패시
-  function fail(err){
-    switch (err.code){
-      case err.PERMISSION_DENIED:
-        msg = "사용자 거부";
-      break;
-      case err.PERMISSION_UNAVAILABLE:
-        msg = "지리정보를 얻을 수 없음";
-      break;
-      case err.TIMEOUT:
-        msg = "시간초과";
-      break;
-      case err.UNKNOWN_ERROR:
-        msg = "알 수 없는 오류 발생";
-      break;
-    }
-    log(msg);
-  }
-  function log(msg){
-    var console = document.getElementById("console");
-    console.innerHTML += msg+"<br/>";
-  }
-
-
-
 </script>
 <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
