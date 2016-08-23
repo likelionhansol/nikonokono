@@ -6,7 +6,10 @@ Rails.application.routes.draw do
 
   # map
   get 'cmap/map'
-  get 'cmap/search'
+  post 'cmap/map'
+  get 'cmap/map/:lat' => 'cmap#map'
+  get 'cmap/map/:lng' => 'cmap#map'
+
 
   get 'showme/list'
   get 'showme/nikowrite'
