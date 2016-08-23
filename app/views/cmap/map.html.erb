@@ -15,12 +15,10 @@
 
 
 <div id="map_view">
-  <div class="container">
+  <div>
     <h1 style="margin-top:30px; margin-bottom:30px;"><b>내 주변 코인노래방</b></h1>
     <div id="map" style="width:100%;height:600px;"></div>
-
     <div id="console" style="width:500px; border:5px; font-size:20px"></div>
-
   </div>
 </div>
 
@@ -28,26 +26,32 @@
   <% @resultArrayHash.each do |r| %>
     <%=r%> <br>
   <% end %>
-
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(window).load(function() {
     showMap();
   });
+
   function showMap() {
+    var markers = [];
+    var infoWindows = [];
+
     var lat = '<%=@currentLat%>';
     var lng = '<%=@currentLng%>';
     console.log("In Javascript pos : "+lat +","+ lng);
     var mapOptions = {
       center: new naver.maps.LatLng(lat, lng),
-      zoom: 10
+      zoom: 12
     };
     var map = new naver.maps.Map('map', mapOptions);
 
+    // 검색 결과 루프
     '<% @resultArrayHash.each do |r| %>'
       var pos = new naver.maps.LatLng('<%= r.as_json['lat'] %>', '<%= r.as_json['lng'] %>');
-      console.log("lat : " + '<%= r.as_json['lat'] %>' + " , lon : " + '<%= r.as_json['lng'] %>');
+      // console.log("lat : " + '<%= r.as_json['lat'] %>' + " , lon : " + '<%= r.as_json['lng'] %>');
+
+      // Marker
       var markerOptions = {
         position: pos,
         map : map,
@@ -58,7 +62,35 @@
         }
       };
       var marker = new naver.maps.Marker(markerOptions);
+
+      // Info Window
+      var infoWindow = new naver.maps.InfoWindow({
+          content: '<%= r.as_json['title'] %>'
+      });
+
+      markers.push(marker);
+      infoWindows.push(infoWindow);
+
     '<% end %>'
+
+    // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+    function getClickHandler(seq) {
+        return function(e) {
+            var marker = markers[seq],
+                infoWindow = infoWindows[seq];
+
+            if (infoWindow.getMap()) {
+                infoWindow.close();
+            } else {
+                infoWindow.open(map, marker);
+            }
+        }
+    }
+
+    for (var i=0, ii=markers.length; i<ii; i++) {
+        naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+    }
   }
+
 </script>
 <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>

@@ -71,7 +71,7 @@ class CmapController < ApplicationController
 
     ##### 검색 API 사용 > 노래방 검색 #####
     #query = params[:query]
-    queryUrl = "https://openapi.naver.com/v1/search/local.xml?query="+currentAddress+" 코인노래방"
+    queryUrl = "https://openapi.naver.com/v1/search/local.xml?display=20&query="+currentAddress+" 코인노래방"
 
     uri = URI(URI.encode(queryUrl))
 
