@@ -1,0 +1,29 @@
+<h2>Listing posts</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>글 번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>가수</th>
+      <th>노래명</th>
+      <th>작성시간</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= post.id %></td>
+        <td class="col-md-6 col-xs-6"><a href="<%= post.id %>"><%= post.title %></a></td>
+        <td><%= post.user.present? ? post.user.email : "null" %></td>
+        <td><%= post.singer %></td>
+        <td><%= post.song %></td>
+        <td> <%= time_ago_in_words(post.created_at) %> 전 </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

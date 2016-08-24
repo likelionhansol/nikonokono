@@ -1,0 +1,14 @@
+
+<p><strong>제목:</strong> <%= @post.title %></p>
+<p><strong>내용:</strong> <%= @post.content %></p>
+<p><strong>Youtube:</strong>
+  <iframe width="560" height="349" src='<%= '#{@post.video_url}' %>'></iframe>
+</p>
+<p><strong>이메일:</strong> <%= @post.user.present? ? @post.user.email : "n/a" %></p>
+<p><strong>가수:</strong> <%= @post.content %></p>
+<p><strong>노래명:</strong> <%= @post.content %></p>
+
+<% if user_signed_in? %>
+ <%= link_to '삭제', destroy_path, method: :delete, data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
+<% end %>
+<%= link_to 'Back', showme_index_path, class: 'btn btn-default' %>

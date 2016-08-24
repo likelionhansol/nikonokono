@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
+
+gem 'devise'
+gem 'rolify'
+gem 'authority'
+
 gem 'envyable'
 # gem 'soundcloud'
 gem 'json'

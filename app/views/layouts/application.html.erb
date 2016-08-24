@@ -11,10 +11,16 @@
       <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper">
-          <a href="/home/index" class="brand-logo">Logo</a>
+          <a href="/showme/index" class="brand-logo">Logo</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li id="ass"><a id="abc" href="#">코인 노래방 찾기</a></li>
-            <li><a href="/showme/list">쇼미더 코인</a></li>
+            <li><a href="/cmap/map">코인 노래방 찾기</a></li>
+            <li><a href="/showme/index">쇼미더 코인</a></li>
+            <% if user_signed_in? %>
+              <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
+            <% else %>
+              <li><%= link_to "Sign in", new_user_session_path %></li>
+              <li><%= link_to "Sign up", new_user_registration_path %></li>
+            <% end %>
           </ul>
         </div>
       </nav>
