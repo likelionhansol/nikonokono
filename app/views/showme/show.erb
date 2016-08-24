@@ -9,6 +9,7 @@
 <p><strong>노래명:</strong> <%= @post.content %></p>
 
 <% if user_signed_in? %>
+ <%= link_to '수정', edit_path if @post.updatable_by? current_user %>&nbsp;
  <%= link_to '삭제', destroy_path, method: :delete, data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
 <% end %>
 <%= link_to 'Back', showme_index_path, class: 'btn btn-default' %>

@@ -1,23 +1,23 @@
 <div class="container" style="margin-top:40px;">
-  <form action="/showme" method="POST" enctype="multipart/form-data">
+  <form action="/update/<%= @post.id %>" method="POST" enctype="multipart/form-data">
     <div class="form-group">
-      제목: <input type="text" name="title" class="form-control" placeholder="제목을 입력하세요">
+      제목: <input type="text" value="<%= @post.title %>" name="update_title" class="form-control" placeholder="제목을 입력하세요">
     </div>
 
     <div class="form-group">
-      Youtube Url: <input type="text" name="videio_url" class="form-control" placeholder="링크를 입력하세요">
+      Youtube Url: <input type="text" value="<%= @post.video_url %>" name="update_videio_url" class="form-control" placeholder="링크를 입력하세요">
     </div>
 
     <div class="form-group">
-      내용: <textarea class="form-control" name="content" rows="5" placeholder="내용을 입력하세요"></textarea>
+      내용: <textarea class="form-control" value="<%= @post.content %>" name="update_content" rows="5" placeholder="내용을 입력하세요"></textarea>
     </div>
 
     <div class="form-group">
-      가수: <input type="text" name="singer" class="form-control" placeholder="가수를 입력하세요">
+      가수: <input type="text"  value="<%= @post.singer %>" name="update_singer" class="form-control" placeholder="가수를 입력하세요">
     </div>
 
     <div class="form-group">
-      노래제목: <input type="text" name="song" class="form-control" placeholder="노래제목을 입력하세요">
+      노래제목: <input type="text"  value="<%= @post.song %>" name="update_song" class="form-control" placeholder="노래제목을 입력하세요">
     </div>
 
     <button type="submit" class="btn btn-default" style="margin-top:10px;"> 전송 </button>
@@ -25,5 +25,5 @@
 </div>
 
 <hr>
-<%= link_to 'Show', @post, class: 'btn btn-default' %>
-<%= link_to 'Back', posts_path, class: "btn btn-default" %>
+
+<%= link_to 'Back', showme_index_path, class: "btn btn-default" %>

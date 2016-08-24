@@ -2,7 +2,8 @@ class ShowmeController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   def index
-    @posts = Post.all.reverse
+    @posts = Post.all.order('id desc').
+      paginate(page: params[:page], per_page: 3)
   end
 
   def board
@@ -42,8 +43,18 @@ class ShowmeController < ApplicationController
     @post = Post.find(params[:id])
   end
 
+  # 글의 수정이 이루어 지는 곳
   def update
     authorize_action_for @post
+
+    @post.title = params[:update_title]
+    @post.video_url = params[:update_video_url]
+    @post.content = params[:update_content]
+    @post.singer = params[:update_singer]
+    @post.song = params[:update_song]
+    @post.save
+
+    redirect_to "/showme/index"
   end
 
   def destroy

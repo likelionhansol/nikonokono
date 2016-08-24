@@ -1,29 +1,34 @@
-<h2>Listing posts</h2>
+<div class="container">
+  <h2>게시글</h2>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>글 번호</th>
-      <th>제목</th>
-      <th>작성자</th>
-      <th>가수</th>
-      <th>노래명</th>
-      <th>작성시간</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @posts.each do |post| %>
+  <div class="label">
+   <label> Show Me The Coin </label>
+   <a href="/showme/new"><button style="float:right">업로드</button></a>
+  </div>
+  <table class="table highlight">
+    <thead>
       <tr>
-        <td><%= post.id %></td>
-        <td class="col-md-6 col-xs-6"><a href="<%= post.id %>"><%= post.title %></a></td>
-        <td><%= post.user.present? ? post.user.email : "null" %></td>
-        <td><%= post.singer %></td>
-        <td><%= post.song %></td>
-        <td> <%= time_ago_in_words(post.created_at) %> 전 </td>
+        <th>글 번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>가수</th>
+        <th>노래명</th>
+        <th>작성시간</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td><%= post.id %></td>
+          <td class="col-md-6 col-xs-6"><a href="<%= post.id %>"><%= post.title %></a></td>
+          <td><%= post.user.present? ? post.user.email : "null" %></td>
+          <td><%= post.singer %></td>
+          <td><%= post.song %></td>
+          <td> <%= time_ago_in_words(post.created_at) %> 전 </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%= will_paginate @posts, previous_label: '<이전 페이지 ', next_label: ' 다음 페이지>' %>
+</div>

@@ -12,8 +12,11 @@ Rails.application.routes.draw do
 
   get 'showme/index'
   get 'showme/new'
-  get 'showme/:id' => "showme#show"
   post 'showme/create' => "showme#create"
+  get 'showme/:id' => "showme#show"
+
+  get  'edit/:id' => "showme#edit",as: "edit"
+  post 'update/:id' => "showme#update",as: "update"
   delete 'destroy/:id' => "showme#destroy",as: "destroy"
   # 코드 합칠 때 :id 식으로 바꿔주삼
   #get 'soundcloud/connect'
