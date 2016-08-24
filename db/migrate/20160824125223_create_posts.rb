@@ -8,6 +8,8 @@ class CreatePosts < ActiveRecord::Migration
       t.string :video_url
       t.string :singer
       t.string :song
+      t.integer :hit, default: 0       # 조회수
+      t.integer :reconum, default: 0   # 추천수
 
       t.timestamps null: false
     end

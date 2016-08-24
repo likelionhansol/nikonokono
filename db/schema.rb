@@ -20,11 +20,11 @@ ActiveRecord::Schema.define(version: 20160824141400) do
     t.string   "video_url"
     t.string   "singer"
     t.string   "song"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "hit",        default: 0
+    t.integer  "reconum",    default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
-
-  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"

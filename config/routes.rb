@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   get  'edit/:id' => "showme#edit",as: "edit"
   post 'update/:id' => "showme#update",as: "update"
   delete 'destroy/:id' => "showme#destroy",as: "destroy"
+
+  #추천
+  get 'reconum/:id' => 'showme#reconum'
   # 코드 합칠 때 :id 식으로 바꿔주삼
   #get 'soundcloud/connect'
   #get 'soundcloud/connected'

@@ -1,5 +1,7 @@
 
 <p><strong>제목:</strong> <%= @post.title %></p>
+<p> 조회수 : <%= @post.hit %> </p>
+<p> 추천수 : <%= @post.reconum %> </p>
 <p><strong>내용:</strong> <%= @post.content %></p>
 <p><strong>Youtube:</strong>
   <iframe width="560" height="349" src='<%= '#{@post.video_url}' %>'></iframe>
@@ -7,6 +9,15 @@
 <p><strong>이메일:</strong> <%= @post.user.present? ? @post.user.email : "n/a" %></p>
 <p><strong>가수:</strong> <%= @post.content %></p>
 <p><strong>노래명:</strong> <%= @post.content %></p>
+
+<!-- 추천을 위한 코드 -->
+  <div class="recommend">
+    <a href="/reconum/<%= @post.id %>">
+      <button type="button" class="btn btn-primary reconum_submit" aria-label="Left Align">
+        추천
+      </button>
+    </a>
+  </div>
 
 <% if user_signed_in? %>
  <%= link_to '수정', edit_path if @post.updatable_by? current_user %>&nbsp;
