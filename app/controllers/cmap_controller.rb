@@ -90,7 +90,7 @@ class CmapController < ApplicationController
     items = xml_doc.xpath("//item")
 
     @infoHashArray = Array.new
-    items.each_with_index do |i, index|
+    items.each do |i|
       # parse xml to hash
       resultHash = Hash.from_xml(i.to_s)
       item = resultHash.as_json['item']
