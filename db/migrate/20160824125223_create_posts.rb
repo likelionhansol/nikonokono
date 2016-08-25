@@ -4,7 +4,7 @@ class CreatePosts < ActiveRecord::Migration
       t.string :title
       t.text :content
       t.integer :user_id
-      #t.references :user, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
       t.string :video_url
       t.string :singer
       t.string :song

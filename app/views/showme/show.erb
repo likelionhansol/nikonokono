@@ -1,26 +1,152 @@
-
-<p><strong>제목:</strong> <%= @post.title %></p>
-<p> 조회수 : <%= @post.hit %> </p>
-<p> 추천수 : <%= @post.reconum %> </p>
-<p><strong>내용:</strong> <%= @post.content %></p>
-<p><strong>Youtube:</strong>
-  <iframe width="560" height="349" src='<%= '#{@post.video_url}' %>'></iframe>
-</p>
-<p><strong>이메일:</strong> <%= @post.user.present? ? @post.user.email : "n/a" %></p>
-<p><strong>가수:</strong> <%= @post.content %></p>
-<p><strong>노래명:</strong> <%= @post.content %></p>
-
-<!-- 추천을 위한 코드 -->
-  <div class="recommend">
-    <a href="/reconum/<%= @post.id %>">
-      <button type="button" class="btn btn-primary reconum_submit" aria-label="Left Align">
-        추천
-      </button>
-    </a>
+<div class="container">
+  <!-- 제목,조회수 -->
+  <div class="row">
+    <div class="col s3">
+      <span>제목 :</span> <%= @post.title %></p>
+    </div>
+    <div class="col offset-s7 s2 center-align">
+      <label>조회수: <span><%= @post.hit %> </span></label><br>
+      <label> <%= time_ago_in_words(@post.created_at) %> 전 </label>
+    </div>
   </div>
 
-<% if user_signed_in? %>
- <%= link_to '수정', edit_path if @post.updatable_by? current_user %>&nbsp;
- <%= link_to '삭제', destroy_path, method: :delete, data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
-<% end %>
-<%= link_to 'Back', showme_index_path, class: 'btn btn-default' %>
+  <!-- 작성자,원곡가수,원곡명 -->
+  <div class="row">
+    <div class="col s2">
+      <span>작성자 :</span> <%= @post.user.present? ? @post.user.email : "n/a" %>
+    </div>
+    <div class="col offset-s4 s3">
+      <span>원곡 가수 :</span> <%= @post.singer %>
+    </div>
+    <div class="col s3">
+      <span>원곡명 :</span> <%= @post.song %>
+    </div>
+  </div>
+
+  <!-- 추천수 -->
+  <div class="row">
+    <div class="col s5">
+     <i class="fa fa-thumbs-up" aria-hidden="true"></i> 추천수: <span><%= @post.reconum %></span> &emsp;
+    </div>
+    <div class="col offset-s4 s3">
+      <% if user_signed_in? %>
+       <%= link_to '수정', edit_path, class: 'btn btn-default' if @post.updatable_by? current_user %>&nbsp;
+       <%= link_to '삭제', destroy_path, method: :delete,class: 'btn btn-default', data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Youtube 부분 -->
+  <div class="row">
+    <iframe style="width: 100%; height: 500px;" src="https://www.youtube.com/embed/HlxqEHEVoKc" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+
+  <!-- 추천을 위한 코드 -->
+    <div class="row">
+      <div class="col offset-s5 s1 valign center-align">
+      <a href="/reconum/<%= @post.id %>">
+        <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+        <span><%= @post.reconum %></span>
+      </a>
+     </div>
+   </div>
+
+   <!-- #버튼 태그# <button type="button" class="btn btn-primary reconum_submit" aria-label="Left Align">
+     추천
+   </button> -->
+<hr style="border: solid 1px lightblue;">
+<table class="table highlight">
+  <thead>
+    <tr>
+      <th> 댓글 작성자 </th>
+      <th> 댓글 내용 </th>
+      <th> 작성 시간 </th>
+      <th> 편집 </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @post.replies.each do |r| %>
+      <tr>
+        <td><%= current_user.email %></td>
+        <td><%= r.content %></td>
+        <td><%= time_ago_in_words(@post.created_at) %> 전</td>
+
+        <td>
+          <% if user_signed_in? %>
+           <%= link_to '수정', reply_edit_path, class: 'btn btn-default' if @post.updatable_by? current_user %>
+           <%= link_to '삭제', reply_destroy_path, method: :delete,class: 'btn btn-default', data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
+          <% end %>
+        </td>
+      </tr>
+      <hr style="border: solid 1px lightblue;">
+    <% end %>
+  </tbody>
+</table>
+
+<div class="form-group" style="margin-top:10px;">
+  <input type="hidden" name="id_of_post">
+  <textarea class="form-control" name="reply_content" rows="5" id="content_<%= @post.id %>" placeholder="댓글을 입력하세요"></textarea>
+</div>
+
+  <button value="<%= @post.id %>" type="submit" class="btn btn-default reply_submit"> 작성 </button>
+  <%= link_to '뒤로가기', showme_index_path, class: 'btn btn-default' %>
+</div>
+    <!--
+    <div class="col s6">
+      댓글 내용
+    </div>
+    <div class="col s2">
+      작성시간
+    </div>
+    <div class="col s2 right-align">
+      편집
+    </div>
+  </div>
+
+
+  <% @post.replies.each do |r| %>
+    <div class="col s2">
+      <%= current_user.email %>
+    </div>
+    <div class="col offset-s1 s6">
+      <%= r.content %>
+    </div>
+    <div class="col s2">
+      <%= time_ago_in_words(@post.created_at) %> 전
+    </div>
+    <div class="col s2 right-align">
+      <a href="/reply_destroy/<%= r.id %>" style="color:green">[삭제]</a>
+      <a href="/reply_edit/<%= r.id %>"  style="color:green">[수정]</a>
+    </div>
+    <hr style="border: solid 1px lightblue;">
+  <% end %>
+  -->
+
+
+<script>
+$(function() {  // 페이지가 다 로딩되면 실행하도록 설정
+  $(".reply_submit").click(function() {
+
+    post_id = this.value;
+    post_content = $("#content_" + post_id).val();
+
+    $.ajax({
+      method: "POST",
+      url: "/showme/reply",
+      data: { reply_content: post_content, id_of_post: post_id },
+
+        success: function() {
+          $("#reply_" + post_id).append("<p>" + "댓글내용:" + post_content + "</p>");
+          $("#content_" + post_id).val("");
+          // alert("리플이 작성되었습니다.");
+        },
+
+        error: function() {
+          alert("리플이 작성되지 않았습니다.");
+        }
+    })
+  });
+});
+</script>

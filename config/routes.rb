@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
   root 'home#index'
   get 'home/index'
+  get 'showme/listdetail'
 
   # map
   get 'cmap/map'
@@ -15,12 +16,22 @@ Rails.application.routes.draw do
   post 'showme/create' => "showme#create"
   get 'showme/:id' => "showme#show"
 
-  get  'edit/:id' => "showme#edit",as: "edit"
-  post 'update/:id' => "showme#update",as: "update"
-  delete 'destroy/:id' => "showme#destroy",as: "destroy"
+  get  'edit/:id' => "showme#edit", as: "edit"
+  post 'update/:id' => "showme#update", as: "update"
+  delete 'destroy/:id' => "showme#destroy", as: "destroy"
 
   #추천
   get 'reconum/:id' => 'showme#reconum'
+
+  #댓글
+  post 'showme/:id' => 'showme#reply'
+
+  # 댓글 삭제하기
+  delete 'reply_destroy/:id' => "showme#reply_destroy", as: "reply_destroy"
+
+  # 댓글 수정하기
+  get 'reply_edit/:id' => "showme#reply_edit", as: "reply_edit"
+  post 'reply_update/:id' => "showme#reply_update"
   # 코드 합칠 때 :id 식으로 바꿔주삼
   #get 'soundcloud/connect'
   #get 'soundcloud/connected'

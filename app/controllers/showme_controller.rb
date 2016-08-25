@@ -6,6 +6,10 @@ class ShowmeController < ApplicationController
       paginate(page: params[:page], per_page: 3)
   end
 
+  def listdetail
+
+  end
+
   def board
 
   end
@@ -40,8 +44,7 @@ class ShowmeController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
-
+    # 클릭당 조회수 1 증가
     @post.hit = @post.hit + 1
     @post.save
   end
@@ -80,6 +83,37 @@ class ShowmeController < ApplicationController
     @post.destroy
 
     redirect_to "/showme/index"
+  end
+
+  def reply
+    new_reply = Reply.new
+    new_reply.content = params[:reply_content]
+    new_reply.post_id = params[:id_of_post]
+    new_reply.save
+
+    redirect_to :back
+  end
+
+  # 댓글 지우는 부분
+  def reply_destroy
+     @one_reply = Reply.find(params[:reply_id])
+     @one_reply.destroy
+
+     redirect_to :back
+  end
+
+  # 업데이트 하는 곳
+  def reply_edit
+    @one_reply = Reply.find(params[:reply_id])
+  end
+
+  # 업데이트 처리 되는 부분
+  def real_update
+    real_update_post = Reply.find(params[:reply_id])
+    real_update_post.content = params[:update_content]
+    real_update_post.save
+
+    redirect_to :back
   end
 
   private

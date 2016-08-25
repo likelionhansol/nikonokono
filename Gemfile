@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'will_paginate'
+gem 'will_paginate'  # 페이징 기능
 
 gem 'devise'
 gem 'rolify'
