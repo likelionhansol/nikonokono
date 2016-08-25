@@ -1,7 +1,5 @@
 <ul id="slide-out" class="side-nav">
   <li><div class="userView">
-    <img class="background" src="images/office.jpg">
-    <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
     <a href="#!name"><span class="white-text name">John Doe</span></a>
     <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
   </div></li>
@@ -28,6 +26,8 @@
   <% end %>
 </div>
 
+
+
 <script type="text/javascript">
   $(window).load(function() {
     showMap();
@@ -40,11 +40,26 @@
     var lat = '<%=@currentLat%>';
     var lng = '<%=@currentLng%>';
     console.log("In Javascript pos : "+lat +","+ lng);
+
+    // Map Setting
     var mapOptions = {
       center: new naver.maps.LatLng(lat, lng),
       zoom: 12
     };
     var map = new naver.maps.Map('map', mapOptions);
+
+    // 현재 위치 표시
+
+    var currentMarkerOptions = {
+      position: new naver.maps.LatLng(lat, lng),
+      map : map,
+      icon: {
+        url: 'http://static.naver.net/maps/v3/pin_default.png',
+        size: new naver.maps.Size(22, 35),
+        anchor: new naver.maps.Point(11, 35)
+      }
+    };
+    var currentMarker = new naver.maps.Marker(currentMarkerOptions);
 
     // 검색 결과 루프
     '<% @resultArrayHash.each do |r| %>'
@@ -64,16 +79,18 @@
       var marker = new naver.maps.Marker(markerOptions);
 
       // Info Window
+      var name = '<%= r.as_json['title'] %>';
       var infoWindow = new naver.maps.InfoWindow({
-          content: '<%= r.as_json['title'] %>'
+          content: name
       });
 
+      // 배열에 추가
       markers.push(marker);
       infoWindows.push(infoWindow);
 
     '<% end %>'
 
-    // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+    // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환.
     function getClickHandler(seq) {
         return function(e) {
             var marker = markers[seq],
@@ -87,10 +104,10 @@
         }
     }
 
+    // 배열들에 담긴 Markers와 InfoWindows에게 핸들러를 세팅
     for (var i=0, ii=markers.length; i<ii; i++) {
         naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
     }
   }
 
 </script>
-<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
