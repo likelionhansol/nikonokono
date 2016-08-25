@@ -21,15 +21,14 @@
 </div>
 
 <div id="content">
-  <% @resultArrayHash.each do |r| %>
-    <%=r%> <br>
+  <% @infoHashArray.each do |i| %>
+    <%=i%> <br>
   <% end %>
 </div>
 
 
-
 <script type="text/javascript">
-  $(window).load(function() {
+  $(document).ready(function() {
     showMap();
   });
 
@@ -62,9 +61,9 @@
     var currentMarker = new naver.maps.Marker(currentMarkerOptions);
 
     // 검색 결과 루프
-    '<% @resultArrayHash.each do |r| %>'
-      var pos = new naver.maps.LatLng('<%= r.as_json['lat'] %>', '<%= r.as_json['lng'] %>');
-      // console.log("lat : " + '<%= r.as_json['lat'] %>' + " , lon : " + '<%= r.as_json['lng'] %>');
+    '<% @infoHashArray.each do |i| %>'
+      var pos = new naver.maps.LatLng('<%= i.as_json['lat'] %>', '<%= i.as_json['lng'] %>');
+      // console.log("lat : " + '<%= i.as_json['lat'] %>' + " , lon : " + '<%= i.as_json['lng'] %>');
 
       // Marker
       var markerOptions = {
@@ -79,9 +78,25 @@
       var marker = new naver.maps.Marker(markerOptions);
 
       // Info Window
-      var name = '<%= r.as_json['title'] %>';
+      var title = '<%= i.as_json['title'] %>';
+      var address = '<%= i.as_json['address'] %>';
+      var contentString = [
+              '<div class="iw_inner">',
+              '   <b>'+ title +'</b><br>',
+              '   <p>'+address+'</p>',
+              '</div>'
+          ].join('');
+
       var infoWindow = new naver.maps.InfoWindow({
-          content: name
+          content : contentString,
+          maxWidth: 140,
+          backgroundColor: "#eee",
+          borderColor: "#2db400",
+          borderWidth: 5,
+          anchorSize: new naver.maps.Size(30, 30),
+          anchorSkew: true,
+          anchorColor: "#eee",
+          pixelOffset: new naver.maps.Point(20, -20)
       });
 
       // 배열에 추가
