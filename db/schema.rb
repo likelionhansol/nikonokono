@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160826044029) do
   end
 
   create_table "replies", force: :cascade do |t|
+    t.string   "email"
     t.text     "content"
     t.integer  "post_id"
     t.datetime "created_at", null: false
