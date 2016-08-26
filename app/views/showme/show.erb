@@ -30,8 +30,8 @@
     </div>
     <div class="col offset-s4 s3">
       <% if user_signed_in? %>
-       <%= link_to '수정', edit_path, class: 'btn btn-default' if @post.updatable_by? current_user %>&nbsp;
-       <%= link_to '삭제', destroy_path, method: :delete,class: 'btn btn-default', data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
+       <%= link_to '[수정]', edit_path  if @post.updatable_by? current_user %>&nbsp;
+       <%= link_to '[삭제]', destroy_path, method: :delete, data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
       <% end %>
     </div>
   </div>
@@ -75,8 +75,8 @@
 
         <td>
           <% if user_signed_in? %>
-           <%= link_to '수정', reply_edit_path, class: 'btn btn-default' if @post.updatable_by? current_user %>
-           <%= link_to '삭제', reply_destroy_path, method: :delete,class: 'btn btn-default', data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
+           <%= link_to '[수정]', reply_edit_path, {style: 'color:green;' } if @post.updatable_by? current_user %>
+           <%= link_to '[삭제]', reply_destroy_path, style: 'color:green;',  method: :delete, data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
           <% end %>
         </td>
       </tr>
