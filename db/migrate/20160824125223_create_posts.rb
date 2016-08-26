@@ -1,6 +1,7 @@
 class CreatePosts < ActiveRecord::Migration
   def change
     create_table :posts do |t|
+
       t.string :title
       t.text :content
       t.integer :user_id
@@ -10,6 +11,7 @@ class CreatePosts < ActiveRecord::Migration
       t.string :song
       t.integer :hit, default: 0       # 조회수
       t.integer :reconum, default: 0   # 추천수
+      t.integer :initNum, default: 0 #추천을위한 초기값
 
       t.timestamps null: false
     end
