@@ -16,5 +16,11 @@ user = User.new(
     :password => '976485',
     :password_confirmation => '976485'
   )
-user.skip_confirmation!
 user.save!
+
+user1 = User.new(
+    :email => 'jong@naver.com',
+    :password => '976485',
+    :password_confirmation => '976485'
+  )
+user1.save!

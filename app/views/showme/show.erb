@@ -2,6 +2,7 @@
   <!-- 제목,조회수 -->
   <div class="row">
     <div class="col s3">
+      <span>글번호 :</span> <%= @post.id %></p>
       <span>제목 :</span> <%= @post.title %></p>
     </div>
     <div class="col offset-s7 s2 center-align">
@@ -71,17 +72,12 @@
       <tr>
         <td><%= r.email %></td>
         <td><%= r.content %></td>
-        <td><%= time_ago_in_words(@post.created_at) %> 전</td>
+        <td><%= time_ago_in_words(r.created_at) %> 전</td>
 
         <td>
           <% if user_signed_in? %>
-<<<<<<< HEAD
-           <%= link_to '[수정]', reply_edit_path, {style: 'color:green;' } if @post.updatable_by? current_user %>
-           <%= link_to '[삭제]', reply_destroy_path, style: 'color:green;',  method: :delete, data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
-=======
-           <%= link_to '수정', reply_edit_path, class: 'btn btn-default' if r.email == current_user.email %>
-           <%= link_to '삭제', reply_destroy_path, method: :delete,class: 'btn btn-default', data: { confirm: 'Are you sure?' } if r.email == current_user.email %>
->>>>>>> 212a7a379e1d6ad44cf78450cc0d7b49d485616c
+           <%= link_to '[수정]', reply_edit_path(r.id) if r.email == current_user.email %>
+           <%= link_to '[삭제]', reply_destroy_path(r.id),  method: :delete, data: { confirm: 'Are you sure?' } if r.email == current_user.email %>
           <% end %>
         </td>
       </tr>
@@ -97,38 +93,7 @@
 
   <button value="<%= @post.id %>" type="submit" class="btn btn-default reply_submit"> 작성 </button>
   <%= link_to '뒤로가기', showme_index_path, class: 'btn btn-default' %>
-</div>
-    <!--
-    <div class="col s6">
-      댓글 내용
-    </div>
-    <div class="col s2">
-      작성시간
-    </div>
-    <div class="col s2 right-align">
-      편집
-    </div>
-  </div>
-
-
-  <% @post.replies.each do |r| %>
-    <div class="col s2">
-      <%= current_user.email %>
-    </div>
-    <div class="col offset-s1 s6">
-      <%= r.content %>
-    </div>
-    <div class="col s2">
-      <%= time_ago_in_words(@post.created_at) %> 전
-    </div>
-    <div class="col s2 right-align">
-      <a href="/reply_destroy/<%= r.id %>" style="color:green">[삭제]</a>
-      <a href="/reply_edit/<%= r.id %>"  style="color:green">[수정]</a>
-    </div>
-    <hr style="border: solid 1px lightblue;">
-  <% end %>
-  -->
-
+</div> <!-- container end %-->
 
 <script>
 $(function() {  // 페이지가 다 로딩되면 실행하도록 설정

@@ -1,6 +1,7 @@
 class ShowmeController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_post, only: [:show, :edit, :update, :destroy, :reconum]
+
   def index
     @posts = Post.all.order('id desc').
       paginate(page: params[:page], per_page: 3)
@@ -26,7 +27,7 @@ class ShowmeController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to "/showme/index", notice: 'Post was successfully created.' }
+        format.html { redirect_to "/showme/index", notice: '성공적으로 글이 작성됬습니다.' }
       else
         format.html { render :new }
       end
@@ -44,9 +45,12 @@ class ShowmeController < ApplicationController
   end
 
   def show
+    #prev_url 세션 등록
+    session[:prev_url] = request.referer
     # 클릭당 조회수 1 증가
     @post.hit = @post.hit + 1
     @post.save
+    #@one_reply = Reply.find(params[:reply_id])
   end
 
   # 추천수
@@ -137,7 +141,6 @@ class ShowmeController < ApplicationController
   def reply_destroy
      @one_reply = Reply.find(params[:reply_id])
      @one_reply.destroy
-
      redirect_to :back
   end
 
@@ -147,17 +150,19 @@ class ShowmeController < ApplicationController
   end
 
   # 업데이트 처리 되는 부분
-  def real_update
-    real_update_post = Reply.find(params[:reply_id])
-    real_update_post.content = params[:update_content]
-    real_update_post.save
+  def reply_update
+    @one_reply = Reply.find(params[:reply_id])
+    @one_reply.content = params[:update_content]
+    @one_reply.save
 
-    redirect_to :back
+    redirect_to session[:prev_url]
+    #redirect_to "/showme/index"
+    #redirect_to action: "show",reply_id: :reply_id
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.find(params[:post_id])
     end
 end
