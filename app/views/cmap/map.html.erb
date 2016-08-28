@@ -75,7 +75,8 @@
       };
       var marker = new naver.maps.Marker(markerOptions);
       // modal
-      var title = '<%= i.as_json['title'] %>';
+      var title = "<%= i.as_json['title'] %>";
+      title = title.replace(/&lt;b&gt;/g, ' ').replace(/&lt;\/b&gt;/g, ' ');
       var address = '<%= i.as_json['address'] %>';
       var modal_id = 'modal' + '<%= index+1 %>';
 
