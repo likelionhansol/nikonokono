@@ -33,8 +33,9 @@
   });
 
   function showMap() {
-    var markers = [];
+    var markerArray = [];
     var infoWindows = [];
+    var modalArray = [];
 
     var lat = '<%=@currentLat%>';
     var lng = '<%=@currentLng%>';
@@ -83,7 +84,7 @@
       var contentString = [
               '<div class="iw_inner">',
               '   <b>'+ title +'</b><br>',
-              '   <p>'+address+'</p>',
+              '   <p>'+ address +'</p>',
               '</div>'
           ].join('');
 
@@ -99,8 +100,11 @@
           pixelOffset: new naver.maps.Point(20, -20)
       });
 
+      // MODAL
+
+
       // 배열에 추가
-      markers.push(marker);
+      markerArray.push(marker);
       infoWindows.push(infoWindow);
 
     '<% end %>'
@@ -108,8 +112,9 @@
     // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환.
     function getClickHandler(seq) {
         return function(e) {
-            var marker = markers[seq],
+            var marker = markerArray[seq],
                 infoWindow = infoWindows[seq];
+                // modal = modal[seq];
 
             if (infoWindow.getMap()) {
                 infoWindow.close();
@@ -120,8 +125,8 @@
     }
 
     // 배열들에 담긴 Markers와 InfoWindows에게 핸들러를 세팅
-    for (var i=0, ii=markers.length; i<ii; i++) {
-        naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+    for (var i=0; i<markers.length; i++) {
+        naver.maps.Event.addListener(markerArray[i], 'click', getClickHandler(i));
     }
   }
 
