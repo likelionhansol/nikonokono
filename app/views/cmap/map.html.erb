@@ -38,7 +38,6 @@
     var markers = [];
     var infoWindows = [];
     var modalArray = [];
-
     var lat = '<%=@currentLat%>';
     var lng = '<%=@currentLng%>';
     console.log("In Javascript pos : "+lat +","+ lng);
@@ -79,12 +78,10 @@
       title = title.replace(/&lt;b&gt;/g, ' ').replace(/&lt;\/b&gt;/g, ' ');
       var address = '<%= i.as_json['address'] %>';
       var modal_id = 'modal' + '<%= index+1 %>';
-
       function modal_trigger(s) {
         var ss = s+1;
         $('#modal'+ss).openModal();
       }
-
       var modalcontent = [
         '<div class="modal" id="' + modal_id + '" style="background-color: transparent !important; background-clip: padding-box !important; box-shadow: none !important;">',
           '<div class="card small" style="margin: auto 10%; box-shadow: 4px 20px 10px #000 !important;">',
@@ -100,12 +97,9 @@
           '</div>',
         '</div>'
       ].join('');
-
-
       // 배열에 추가
       markers.push(marker);
       modalArray.push(modalcontent);
-
     '<% end %>'
     //해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환.
     function getClickHandler(seq) {
@@ -115,11 +109,8 @@
                 console.log(modalcontent);
                 $('.modal_infos').append(modalcontent);
                 modal_trigger(seq);
-
         }
     }
-
-
     // 배열들에 담긴 Markers와 InfoWindows에게 핸들러를 세팅
     for (var i=0, ii=markers.length; i<ii; i++) {
         //naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
