@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row">
+    <div class="card col s3">
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" src="images/office.jpg">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+      <p><a href="#">This is a link</a></p>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+      <p>Here is some more information about this product that is only revealed once clicked on.</p>
+    </div>
+  </div>
+
+  <div class="card col s5">
+  <div class="card-image waves-effect waves-block waves-light">
+    <img class="activator" src="images/office.jpg">
+  </div>
+  <div class="card-content">
+    <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+    <p><a href="#">This is a link</a></p>
+  </div>
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+    <p>Here is some more information about this product that is only revealed once clicked on.</p>
+  </div>
+  </div>
+
+  <div class="card col s4">
+  <div class="card-image waves-effect waves-block waves-light">
+    <img class="activator" src="images/office.jpg">
+  </div>
+  <div class="card-content">
+    <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+    <p><a href="#">This is a link</a></p>
+  </div>
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+    <p>Here is some more information about this product that is only revealed once clicked on.</p>
+  </div>
+  </div>
+</div>
+  <h2>게시글</h2>
+
+  <div class="label">
+   <label> Show Me The Coin </label>
+   <a href="/showme/new"><button style="float:right">업로드</button></a>
+  </div>
+  <table class="table highlight">
+    <thead>
+      <tr>
+        <th>글 번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>가수</th>
+        <th>노래명</th>
+        <th>조회수</th>
+        <th>추천수</th>
+        <th>작성시간</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td><%= post.id %></td>
+          <td class="col-md-6 col-xs-6"><a href="<%= post.id %>"><%= post.title %></a></td>
+          <td><%= post.user.present? ? post.user.email : "null" %></td>
+          <td><%= post.singer %></td>
+          <td><%= post.song %></td>
+          <td><%= post.hit %></td>
+          <td><%= post.reconum %></td>
+          <td> <%= time_ago_in_words(post.created_at) %> 전 </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%= will_paginate @posts, previous_label: '<이전 페이지 ', next_label: ' 다음 페이지>' %>
+</div>

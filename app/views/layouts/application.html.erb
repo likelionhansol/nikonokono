@@ -8,6 +8,7 @@
         <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=h40urbpdCMGXC07cN0rf"></script>
     </head>
     <body>
+      <main>
       <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper">
@@ -20,6 +21,7 @@
       </nav>
     </div>
         <%= yield %>
+      </main>
         <footer class="page-footer">
           <div class="footer-copyright">
             <div class="container">
@@ -30,10 +32,6 @@
         </footer>
 
         <script>
-
-
-
-
         /* select 시작 */
         $(document).ready(function() {
           var isLoading = true;
@@ -43,7 +41,6 @@
               alert("위치정보를 받아오는 중입니다...");
             }
           });
-
           function getCurrentPos() {
             if(!navigator.geolocation) {
               alert("브라우저에서 지오로케이션 지원 x");
@@ -72,12 +69,9 @@
                 break;
               }
               output.innerHTML = "<p>Locating...</p>";
-
             }
-
             navigator.geolocation.getCurrentPosition(success, fail);  //현재 위치 정보를 조사하고 성공 실패 했을시 호출되는 함수 설정
           }
-
           $('select').material_select();
           $('.modal-trigger').leanModal();
            $(".button-collapse").sideNav();

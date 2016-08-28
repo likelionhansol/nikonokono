@@ -74,15 +74,14 @@
       };
       var marker = new naver.maps.Marker(markerOptions);
       // modal
-      var title = '<%= i.as_json['title'] %>';
+      var title = "<%= i.as_json['title'] %>";
+      title = title.replace(/&lt;b&gt;/g, ' ').replace(/&lt;\/b&gt;/g, ' ');
       var address = '<%= i.as_json['address'] %>';
       var modal_id = 'modal' + '<%= index+1 %>';
-
       function modal_trigger(s) {
         var ss = s+1;
         $('#modal'+ss).openModal();
       }
-
       var modalcontent = [
         '<div class="modal" id="' + modal_id + '" style="background-color: transparent !important; background-clip: padding-box !important; box-shadow: none !important;">',
           '<div class="card small" style="margin: auto 10%; box-shadow: 4px 20px 10px #000 !important;">',
@@ -98,11 +97,6 @@
           '</div>',
         '</div>'
       ].join('');
-
-      // Info Window
-
-
-
       // 배열에 추가
       markers.push(marker);
       modalArray.push(modalcontent);
@@ -111,19 +105,14 @@
     function getClickHandler(seq) {
         return function(e) {
             var marker = markers[seq],
-
                 modalcontent = modalArray[seq];
                 console.log(modalcontent);
                 $('.modal_infos').append(modalcontent);
                 modal_trigger(seq);
-
         }
     }
-
-
     // 배열들에 담긴 Markers와 InfoWindows에게 핸들러를 세팅
     for (var i=0, ii=markers.length; i<ii; i++) {
-
         //naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
         naver.maps.Event.addListener(markers[i], "mousedown", getClickHandler(i));
     }
