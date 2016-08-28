@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 gem 'envyable'
 # gem 'soundcloud'
 gem 'json'
-gem 'geokit-rails'
 
 gem 'font-awesome-sass'
 gem 'material_icons'
