@@ -50,7 +50,6 @@ class ShowmeController < ApplicationController
     # 클릭당 조회수 1 증가
     @post.hit = @post.hit + 1
     @post.save
-    #@one_reply = Reply.find(params[:reply_id])
   end
 
   # 추천수

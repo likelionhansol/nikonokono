@@ -1,4 +1,48 @@
 <div class="container">
+  <div class="row">
+  <div class="card col s3">
+  <div class="card-image waves-effect waves-block waves-light">
+    <img class="activator" src="images/office.jpg">
+  </div>
+  <div class="card-content">
+    <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+    <p><a href="#">This is a link</a></p>
+  </div>
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+    <p>Here is some more information about this product that is only revealed once clicked on.</p>
+  </div>
+</div>
+
+<div class="card col s5">
+<div class="card-image waves-effect waves-block waves-light">
+  <img class="activator" src="images/office.jpg">
+</div>
+<div class="card-content">
+  <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+  <p><a href="#">This is a link</a></p>
+</div>
+<div class="card-reveal">
+  <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+  <p>Here is some more information about this product that is only revealed once clicked on.</p>
+</div>
+</div>
+
+<div class="card col s4">
+<div class="card-image waves-effect waves-block waves-light">
+  <img class="activator" src="images/office.jpg">
+</div>
+<div class="card-content">
+  <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+  <p><a href="#">This is a link</a></p>
+</div>
+<div class="card-reveal">
+  <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+  <p>Here is some more information about this product that is only revealed once clicked on.</p>
+</div>
+</div>
+</div>
+
   <!-- 제목,조회수 -->
   <div class="row">
     <div class="col s3">
@@ -68,21 +112,22 @@
   </thead>
 
   <tbody>
-    <% @post.replies.each do |r| %>
-      <tr>
-        <td><%= r.email %></td>
-        <td><%= r.content %></td>
-        <td><%= time_ago_in_words(r.created_at) %> 전</td>
+    <div id="reply_<%= @post.id %>">
+      <% @post.replies.each do |r| %>
+        <tr>
+          <td id="email"><%= r.email %></td>
+          <td><%= r.content %></td>
+          <td><%= time_ago_in_words(r.created_at) %> 전</td>
 
-        <td>
-          <% if user_signed_in? %>
-           <%= link_to '[수정]', reply_edit_path(r.id) if r.email == current_user.email %>
-           <%= link_to '[삭제]', reply_destroy_path(r.id),  method: :delete, data: { confirm: 'Are you sure?' } if r.email == current_user.email %>
-          <% end %>
-        </td>
-      </tr>
-      <hr style="border: solid 1px lightblue;">
-    <% end %>
+          <td>
+            <% if user_signed_in? %>
+             <%= link_to '[수정]', reply_edit_path(r.id) if r.email == current_user.email %>
+             <%= link_to '[삭제]', reply_destroy_path(r.id),  method: :delete, data: { confirm: '글을 지우시겠습니까?' } if r.email == current_user.email %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </div>
   </tbody>
 </table>
 
@@ -96,27 +141,28 @@
 </div> <!-- container end %-->
 
 <script>
-$(function() {  // 페이지가 다 로딩되면 실행하도록 설정
-  $(".reply_submit").click(function() {
 
-    post_id = this.value;
-    post_content = $("#content_" + post_id).val();
+  $(function() {  // 페이지가 다 로딩되면 실행하도록 설정
+    $(".reply_submit").click(function() {
 
-    $.ajax({
-      method: "POST",
-      url: "/showme/reply",
-      data: { reply_content: post_content, id_of_post: post_id },
+      var post_id = this.value;
+      var post_email = &("#email");
+      var post_content = $("#content_" + post_id).val();
 
-        success: function() {
-          $("#reply_" + post_id).append("<p>" + "댓글내용:" + post_content + "</p>");
-          $("#content_" + post_id).val("");
-          // alert("리플이 작성되었습니다.");
-        },
-
-        error: function() {
-          alert("리플이 작성되지 않았습니다.");
-        }
-    })
+      $.ajax({
+        method: "POST",
+        url: "/showme/reply",
+        data: { reply_content: post_content, id_of_post: post_id },
+          success: function() {
+            $("#reply_" + post_id).append("<tr>" + "<td>" +
+                                          "<td>" + "댓글내용:" + post_content + "</td>");
+            $("#content_" + post_id).val("");
+            // alert("리플이 작성되었습니다.");
+          },
+          error: function() {
+            alert("리플이 작성되지 않았습니다.");
+          }
+      });
+    });
   });
-});
 </script>
