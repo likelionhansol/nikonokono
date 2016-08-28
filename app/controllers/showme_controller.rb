@@ -4,7 +4,6 @@ class ShowmeController < ApplicationController
   end
 
   def listdetail
-
   end
 
   def nikowrite

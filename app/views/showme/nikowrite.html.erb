@@ -50,7 +50,7 @@
 
   -->
 <div class="row">
-    <form class="col s12" action="/showme/nikowrite" method="post" class="form-horizontal">
+    <form class="col s12" action="/showme/nikowrite" method="post" class="form-horizontal" name="writeform">
       <div class="row">
         <div class="input-field col s5">
           <label for="title">제 목</label>
@@ -68,7 +68,6 @@
             <label for="soundcloud">Soundcloud</label>
           </p>
           </div>
-
           <div class="row">
             <div class="input-field col s5">
                 <input type="url" class="validate" name="link" id="link">
@@ -109,3 +108,33 @@
     </form>
 </div>
 </div>
+<script>
+
+
+// function gogo() {
+//   var check = document.querySelector('#title').value;
+//
+//   var youtube_check = /[y-e]/;
+//   var soundcloud_check = /[soundcloud]/;
+//
+//   var examplestring1 = 'http://youtube.com/watch?=asdkfsdf';
+//   var examplestring2 = 'http://soundcloud.com/sadfksdf';
+//
+//   examplestring1.search(youtube_check);
+//
+//   console.log(examplestring1);
+//   console.log(soundcloud_check);
+//
+//
+//   console.log(check);
+//   if(check === 'hi') {
+//     console.log('good');
+//   } else if(check === 'bye') {
+//     console.log('bye');
+//   }
+// }
+//
+//
+// $('#title').keypress(gogo);
+
+</script>
