@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="row">
+    <div class="card col s3">
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" src="images/office.jpg">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+      <p><a href="#">This is a link</a></p>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+      <p>Here is some more information about this product that is only revealed once clicked on.</p>
+    </div>
+  </div>
+
+  <div class="card col s5">
+  <div class="card-image waves-effect waves-block waves-light">
+    <img class="activator" src="images/office.jpg">
+  </div>
+  <div class="card-content">
+    <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+    <p><a href="#">This is a link</a></p>
+  </div>
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+    <p>Here is some more information about this product that is only revealed once clicked on.</p>
+  </div>
+  </div>
+
+  <div class="card col s4">
+  <div class="card-image waves-effect waves-block waves-light">
+    <img class="activator" src="images/office.jpg">
+  </div>
+  <div class="card-content">
+    <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+    <p><a href="#">This is a link</a></p>
+  </div>
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+    <p>Here is some more information about this product that is only revealed once clicked on.</p>
+  </div>
+  </div>
+</div>
+
+
+<!-- 실제 작성하는 부분 -->
+<div class="row">
+  <form action="/showme/create" method="POST" enctype="multipart/form-data">
+    <div class="row">
+      <div class="input-field col s5">
+        <label for="title">제 목</label>
+              <input type="text" class="validate" name="title" id="title">
+          </div>
+        </div>
+
+        <div class="row">
+          <p>
+            <input type="radio" class="with-gap" name="link_select" id="youtube" value="youtube"/>
+            <label for="youtube">Youtube</label>
+          </p>
+          <p>
+            <input type="radio" class="with-gap" name="link_select" id="soundcloud" value="soundcloud"/>
+            <label for="soundcloud">Soundcloud</label>
+          </p>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s5">
+              <input type="url" class="validate" name="video_url" id="video_url">
+              <label for="link" data-error="정확한 주소를 입력해 주세요" data-success="성공">유튜브나 사운드클라우드 링크를 복사해주세요</label>
+            </div>
+        </div>
+
+      <div class="row">
+        <div class="input-field col s4">
+                <input type="text" class="validate" name="singer">
+                <label for="orgin_singer">원곡 가수명</label>
+            </div>
+            <div class="input-field col s4">
+            <input type="text" class="validate" name="song">
+            <label for="origin_music">원곡 제목</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+                <select name="sing_room" id="sing_room">
+                  <option value="" disabled selected>노래방선택</option>
+                    <option value="1"> 금영 노래방</option>
+                    <!-- 노래방 배열로 넣어줘야함 -->
+                    <option value="2">쇼미더 코인 노래방</option>
+                </select>
+                <label for="sing_room">노래방</label>
+        </div>
+      </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+          <label for="description">내용을 입력해주세요</label>
+              <textarea class="materialize-textarea" name="content" id="content" style="resize: none;"></textarea>
+      </div>
+    </div>
+      <button type="submit" class="btn right-align">제출</button>
+  </form>
+</div>
+</div>

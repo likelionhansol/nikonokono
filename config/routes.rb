@@ -1,23 +1,41 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   root 'home#index'
-
   get 'home/index'
+  get 'showme/listdetail'
 
   # map
   get 'cmap/map'
 #  get 'cmap/map/:lat&:lng' => 'cmap#map'
   get 'cmap/fuck'
 
+  get 'showme/index'
+  get 'showme/new'
+  post 'showme/create' => "showme#create"
+  get 'showme/:post_id' => "showme#show", as: "show"
 
-  get 'showme/list'
-  get 'showme/nikowrite'
-  get 'showme/listdetail' # 코드 합칠 때 :id 식으로 바꿔주삼
+  get  'edit/:post_id' => "showme#edit", as: "edit"
+  post 'update/:post_id' => "showme#update", as: "update"
+  delete 'destroy/:post_id' => "showme#destroy", as: "destroy"
+
+  #추천
+  get 'reconum/:post_id' => "showme#reconum"
+
+  #댓글
+  post 'showme/:reply_id' => "showme#reply"
+
+  # 댓글 삭제하기
+  delete 'reply_destroy/:reply_id' => "showme#reply_destroy", as: "reply_destroy"
+
+  # 댓글 수정하기
+  get 'reply_edit/:reply_id' => "showme#reply_edit", as: "reply_edit"
+  post 'reply_update/:reply_id' => "showme#reply_update"
+  # 코드 합칠 때 :id 식으로 바꿔주삼
   #get 'soundcloud/connect'
   #get 'soundcloud/connected'
   #get 'soundcloud/destroy'
 
-  post 'showme/nikowrite'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
