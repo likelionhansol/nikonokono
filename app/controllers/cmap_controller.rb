@@ -87,18 +87,20 @@ class CmapController < ApplicationController
     # XML Parsing
     xml_doc = Nokogiri::XML(res.body)
 
-    title = xml_doc.xpath("//title")
-    address = xml_doc.xpath("//address")
+    items = xml_doc.xpath("//item")
 
-    @resultArrayHash = Array.new
-    address.each_with_index do |a, index|
-      hashTest = Hash.new
-      hashTest[:title] = title.at(index).inner_text
-      hashTest[:lat] = addressToLatLng(a.inner_text).at(0)
-      hashTest[:lng] = addressToLatLng(a.inner_text).at(1)
-      @resultArrayHash.push(hashTest)
+    @infoHashArray = Array.new
+    items.each do |i|
+      # parse xml to hash
+      resultHash = Hash.from_xml(i.to_s)
+      item = resultHash.as_json['item']
+      infoHash = Hash.new
+      infoHash[:title] = item['title']
+      infoHash[:address] = item['address']
+      infoHash[:lat] = addressToLatLng(item['address']).at(0)
+      infoHash[:lng] = addressToLatLng(item['address']).at(1)
+      @infoHashArray.push(infoHash)
     end
-
 
   end
 

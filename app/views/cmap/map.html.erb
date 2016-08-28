@@ -1,7 +1,5 @@
 <ul id="slide-out" class="side-nav">
   <li><div class="userView">
-    <img class="background" src="images/office.jpg">
-    <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
     <a href="#!name"><span class="white-text name">John Doe</span></a>
     <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
   </div></li>
@@ -23,34 +21,47 @@
 </div>
 
 <div id="content">
-  <% @resultArrayHash.each do |r| %>
-    <%=r%> <br>
+  <% @infoHashArray.each do |i| %>
+    <%=i%> <br>
   <% end %>
+</div>
+<!-- Modal Structure -->
+
+<div class="modal_infos">
 </div>
 
 <script type="text/javascript">
-  $(window).load(function() {
+  $(document).ready(function() {
     showMap();
   });
-
   function showMap() {
     var markers = [];
     var infoWindows = [];
-
+    var modalArray = [];
     var lat = '<%=@currentLat%>';
     var lng = '<%=@currentLng%>';
     console.log("In Javascript pos : "+lat +","+ lng);
+    // Map Setting
     var mapOptions = {
       center: new naver.maps.LatLng(lat, lng),
       zoom: 12
     };
     var map = new naver.maps.Map('map', mapOptions);
-
+    // 현재 위치 표시
+    var currentMarkerOptions = {
+      position: new naver.maps.LatLng(lat, lng),
+      map : map,
+      icon: {
+        url: 'http://static.naver.net/maps/v3/pin_default.png',
+        size: new naver.maps.Size(22, 35),
+        anchor: new naver.maps.Point(11, 35)
+      }
+    };
+    var currentMarker = new naver.maps.Marker(currentMarkerOptions);
     // 검색 결과 루프
-    '<% @resultArrayHash.each do |r| %>'
-      var pos = new naver.maps.LatLng('<%= r.as_json['lat'] %>', '<%= r.as_json['lng'] %>');
-      // console.log("lat : " + '<%= r.as_json['lat'] %>' + " , lon : " + '<%= r.as_json['lng'] %>');
-
+    '<% @infoHashArray.each_with_index do |i, index| %>'
+      var pos = new naver.maps.LatLng('<%= i.as_json['lat'] %>', '<%= i.as_json['lng'] %>');
+      // console.log("lat : " + '<%= i.as_json['lat'] %>' + " , lon : " + '<%= i.as_json['lng'] %>');
       // Marker
       var markerOptions = {
         position: pos,
@@ -62,35 +73,59 @@
         }
       };
       var marker = new naver.maps.Marker(markerOptions);
+      // modal
+      var title = '<%= i.as_json['title'] %>';
+      var address = '<%= i.as_json['address'] %>';
+      var modal_id = 'modal' + '<%= index+1 %>';
+
+      function modal_trigger(s) {
+        var ss = s+1;
+        $('#modal'+ss).openModal();
+      }
+
+      var modalcontent = [
+        '<div class="modal" id="' + modal_id + '" style="background-color: transparent !important; background-clip: padding-box !important; box-shadow: none !important;">',
+          '<div class="card small" style="margin: auto 10%; box-shadow: 4px 20px 10px #000 !important;">',
+            '<div class="card-image green">',
+                '<span class="card-title">Card Title</span>',
+            '</div>',
+            '<div class="card-content green">',
+              '<p>' + title + '<br>' + address + '</p>',
+            '</div>',
+            '<div class="card-action blue">',
+              '<a href="#">This is a link</a>',
+            '</div>',
+          '</div>',
+        '</div>'
+      ].join('');
 
       // Info Window
-      var infoWindow = new naver.maps.InfoWindow({
-          content: '<%= r.as_json['title'] %>'
-      });
 
+
+
+      // 배열에 추가
       markers.push(marker);
-      infoWindows.push(infoWindow);
-
+      modalArray.push(modalcontent);
     '<% end %>'
-
-    // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
+    //해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환.
     function getClickHandler(seq) {
         return function(e) {
             var marker = markers[seq],
-                infoWindow = infoWindows[seq];
 
-            if (infoWindow.getMap()) {
-                infoWindow.close();
-            } else {
-                infoWindow.open(map, marker);
-            }
+                modalcontent = modalArray[seq];
+                console.log(modalcontent);
+                $('.modal_infos').append(modalcontent);
+                modal_trigger(seq);
+
         }
     }
 
+
+    // 배열들에 담긴 Markers와 InfoWindows에게 핸들러를 세팅
     for (var i=0, ii=markers.length; i<ii; i++) {
-        naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+
+        //naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+        naver.maps.Event.addListener(markers[i], "mousedown", getClickHandler(i));
     }
   }
-
 </script>
-<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
