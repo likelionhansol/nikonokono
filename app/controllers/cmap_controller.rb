@@ -97,6 +97,9 @@ class CmapController < ApplicationController
       infoHash = Hash.new
       infoHash[:title] = item['title']
       infoHash[:address] = item['address']
+      infoHash[:roadAddress] = item['roadAddress']
+      infoHash[:telephone] = item['telephone']
+      infoHash[:description] = item['description']
       infoHash[:lat] = addressToLatLng(item['address']).at(0)
       infoHash[:lng] = addressToLatLng(item['address']).at(1)
       @infoHashArray.push(infoHash)

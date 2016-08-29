@@ -73,28 +73,46 @@
         }
       };
       var marker = new naver.maps.Marker(markerOptions);
-      // modal
+
+      // 정보
       var title = "<%= i.as_json['title'] %>";
-      title = title.replace(/&lt;b&gt;/g, ' ').replace(/&lt;\/b&gt;/g, ' ');
+      title = title.replace(/&lt;b&gt;/g, ' ').replace(/&lt;\/b&gt;/g, ' ');      //  title <b> tag 제거
       var address = '<%= i.as_json['address'] %>';
+      var roadAddress = '<%= i.as_json['roadAddress'] %>'
+      var description = '<%= i.as_json['description'] %>'
+      description = description.replace(/&lt;b&gt;/g, ' ').replace(/&lt;\/b&gt;/g, ' ');      //  title <b> tag 제거
+      var telephone = '<%= i.as_json['telephone'] %>'
+      if (!description) {
+        description = "<span style='color:#FF0000'>등록된 설명이 없습니다.<span>";
+      }
+      if (!telephone) {
+        telephone = "<span style='color:#FF0000'>등록된 연락처가 없습니다.<span>";
+      }
+
       var modal_id = 'modal' + '<%= index+1 %>';
       function modal_trigger(s) {
         var ss = s+1;
-        $('#modal'+ss).openModal();
+        $('#modal'+ss).leanModal({
+          starting_top: '40%' // Starting top style attribute
+        }).openModal();
       }
       var modalcontent = [
-        '<div class="modal" id="' + modal_id + '" style="background-color: transparent !important; background-clip: padding-box !important; box-shadow: none !important;">',
-          '<div class="card small" style="margin: auto 10%; box-shadow: 4px 20px 10px #000 !important;">',
-            '<div class="card-image green">',
-                '<span class="card-title">Card Title</span>',
+        '<div class="modal" id="' + modal_id + '">',
+        '<div class="col s12 m6">',
+          '<div class="card amber darken-1">',
+            '<div class="card-content white-text">',
+              '<span class="card-title">' + title + '</span>',
+              '<p>주소 : ' + address + ' </p>',
+              '<p>도로명주소 : '+ roadAddress +' </p>',
+              '<p>설명 : '+ description +' </p>',
+              '<p>연락처 : '+ telephone +' </p>',
             '</div>',
-            '<div class="card-content green">',
-              '<p>' + title + '<br>' + address + '</p>',
-            '</div>',
-            '<div class="card-action blue">',
+            '<div class="card-action" teal>',
+              '<a href="#">This is a link</a>',
               '<a href="#">This is a link</a>',
             '</div>',
           '</div>',
+        '</div>',
         '</div>'
       ].join('');
       // 배열에 추가
