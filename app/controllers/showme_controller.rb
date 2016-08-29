@@ -126,10 +126,14 @@ class ShowmeController < ApplicationController
     new_reply = Reply.new
     new_reply.content = params[:reply_content]
     new_reply.post_id = params[:id_of_post]
-    new_reply.email = current_user.email
+    new_reply.email = params[:reply_email]
     new_reply.save
 
-    redirect_to :back
+    respond_to do |format|
+      msg ={ :status => "ok", :message => "success"}
+      format.json {render :json=>msg}
+
+    end
   end
 
   # 댓글 지우는 부분
