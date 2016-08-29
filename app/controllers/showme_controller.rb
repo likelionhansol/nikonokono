@@ -69,59 +69,38 @@ class ShowmeController < ApplicationController
     @post.save
   end
 
-  # 추천수
   def reconum
-   #@post = Post.find(params[:post_id])
-   @recommend = Recommend.new #따로 이메일은 확인하기 위한 DB
+    @recommend = Recommend.new #따로 이메일은 확인하기 위한 DB
+    @post.reconum = params[:reconum]
 
-  # respond_to do |format|
+    @reco = Recommend.all
+    reco_bool = 0
 
-   if current_user.email == @post.user.email # 자신의 글인지 아닌지 판단
-    # format.html { redirect_to "/showme/index", notice: '자신의 글은 추천할 수 없습니다.'}
-    redirect_to back
-   else
-      if @post.initNum == 0 #-> default = 0
-                                  #
+    #recommend에 들어있는 db와 해당 post_id 비교해서 bool값 바꾸기
+    @reco.each do |r|
+      if r.post_id == @post.id
+        if r.email == current_user.email
+          reco_bool = 1
+          break
+        end
+      end
+    end
+
+    if current_user.email == @post.user.email # 자신의 글인지 아닌지 판단
+      redirect_to "/showme/index"
+    else
+      if reco_bool == 0 #추천성공
         @recommend.post_id = @post.id
         @recommend.email = current_user.email
-        @post.initNum = 1 # initNum 최초 추천후 바꿈.
         @post.reconum = @post.reconum + 1  # 추천수 증가
         @recommend.save
         @post.save
-
-        #format.html { redirect_to "/showme/index", notice: '추천 성공!' }
-
-      else
-        @reco = Recommend.all #recommend에 저장되어 있는 DB 갖고오기
-          reco_bool = 0 #current_user.email이 이미 들어있으면 1로 바뀜
-
-          @reco.each do |r| #recommend DB 다 검사
-            if r.post_id == @post.id
-              if r.email == current_user.email
-                reco_bool = 1
-                break
-              end
-            end
-          end
-
-
-        if reco_bool == 1
-
-        #  format.html { redirect_to "/showme/index", notice: '이미 추천한 글 입니다.'}
-        else
-          @recommend.post_id = @post.id
-          @recommend.email = current_user.email
-          @post.reconum = @post.reconum + 1  # 추천수 증가
-          @post.save
-          @recommend.save
-
-        #  format.html { redirect_to "/showme/index", notice: '추천 성공!' }
-        end
+        redirect_to "/showme/index"
+      else #이미추천된것.
+        redirect_to "/showme/index"
       end
-  # end
-   end
+    end
   end
-
   # 글의 수정이 이루어 지는 곳
   def update
     authorize_action_for @post

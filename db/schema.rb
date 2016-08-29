@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(version: 20160826044029) do
     t.string   "song"
     t.integer  "hit",         default: 0
     t.integer  "reconum",     default: 0
-    t.integer  "initNum",     default: 0
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
