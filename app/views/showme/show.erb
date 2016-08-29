@@ -123,10 +123,11 @@
   </thead>
 
   <tbody>
-    <div id="reply_<%= @post.id %>">
+    <div>
       <% @post.replies.each do |r| %>
         <tr>
-          <td id="email"><%= r.email %></td>
+
+          <td><%= r.email %></td>
           <td><%= r.content %></td>
           <td><%= time_ago_in_words(r.created_at) %> 전</td>
 
@@ -138,6 +139,7 @@
           </td>
         </tr>
       <% end %>
+      <tr  id="reply_<%= @post.id %>"/>
     </div>
   </tbody>
 </table>
@@ -195,6 +197,50 @@
     //   });
     // });
   });
+
+
+  $(function() {  // 페이지가 다 로딩되면 실행하도록 설정
+    $(".reply_submit").click(function() {
+
+      var post_id = this.value;
+      var post_email = '<%= current_user.email %>';
+      var post_content = $("#content_" + post_id).val();
+
+
+
+
+      $.ajax({
+        method: "POST",
+        url: "/showme/reply",
+        data: { reply_content: post_content, id_of_post: post_id, reply_email: post_email },
+        dataType: 'json',
+          success: function(msg) {
+          console.log(msg);
+            $("#reply_" + post_id).append(
+
+              '  <td>' +post_email +'</td>' +
+              '  <td>'+ post_content+'</td>' +
+              '  <td>	less than a minute 전</td>'+
+
+
+
+            '  </tr>'
+          );
+
+            $("#content_" + post_id).val("");
+             alert("리플이 작성되었습니다." +'<%= @post.replies.all.size %>');
+          },
+          error: function(err) {
+            console.log(err);
+            alert("리플이 작성되지 않았습니다." + post_content + post_id + post_email);
+          }
+      })
+
+    });
+  });
+
+
+
 
   $(function() {  // 페이지가 다 로딩되면 실행하도록 설정
     $(".reco_btn").click(function() {

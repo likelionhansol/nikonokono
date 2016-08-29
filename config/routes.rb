@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get 'reconum/:post_id' => "showme#reconum"
 
   #댓글
-  post 'showme/:reply_id' => "showme#reply"
+  post 'showme/reply' => "showme#reply"
 
   # 댓글 삭제하기
   delete 'reply_destroy/:reply_id' => "showme#reply_destroy", as: "reply_destroy"
