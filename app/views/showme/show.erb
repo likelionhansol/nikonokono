@@ -96,15 +96,17 @@
   </div>
   <% end %>
   <!-- 추천을 위한 코드 -->
-
-    <div class="row">
-      <div class="col offset-s5 s1 valign center-align">
-      <a href="/reconum/<%= @post.id %>" id="likethis">
-        <i id="vv" class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
-        <h4><%= @post.reconum %></h4>
-      </a>
+  <!-- 추천을 위한 코드 -->
+      <div class="row reco_btn">
+        <div class="col offset-s5 s1 valign center-align">
+        <button>
+           <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+           <input id="reco_id" value="<%= @post.reconum %>" style="
+           margin-bottom: 0px;border-bottom-width: 0px;width: 25px;height: 15px;" readonly="">
+        </button>
+       </div>
      </div>
-   </div>
+
 
    <!-- #버튼 태그# <button type="button" class="btn btn-primary reconum_submit" aria-label="Left Align">
      추천
@@ -197,23 +199,45 @@
   });
 
 
-  $(function(){
+  $(function() {  // 페이지가 다 로딩되면 실행하도록 설정
+    $(".reco_btn").click(function() {
+      reco = '<%= @post.reconum %>';
 
-    $(".reco_btn").click(function(){
-      console.log("rrrr");
-  //     $.ajax({
-  //       method: "GET",
-  //       url: "/reconum/<%=@post.id%>",
-  //       success: function(result){
-  //         console.log(result);
-  //       },
-  //       error: function(err){
-  //         console.log(err);
-  //         alert("ERROR");
-  //       }
-  //     });
+      $.ajax({
+        method: "GET",
+        url: "/reconum/<%= @post.id %>",
+        data: { reconum: reco},
+
+        success: function() {
+          var i = 0;
+
+          "<% Recommend.all.each do |r| %>"
+            "<% if r.post_id == @post.id %>"
+              "<% if r.email == current_user.email %>"
+                i = 1
+              "<% end %>"
+            "<% end %>"
+          "<% end %>"
+
+          "<% if current_user.email == @post.user.email%>"
+            alert("자신의 글은 추천 불가");
+          "<% else %>"
+            if(i == 0){
+              $("#reco_id").val('<%= @post.reconum+1 %>');
+              alert("추천 성공");
+            }
+            else{
+              alert("이미 추천 하였습니다.");
+            }
+          "<% end %>"
+
+
+        },
+        error: function() {
+
+          alert("실패");
+        }
+      });
     });
   });
-
-
 </script>
