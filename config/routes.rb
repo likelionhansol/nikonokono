@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
   # 댓글 삭제하기
   delete 'reply_destroy/:reply_id' => "showme#reply_destroy", as: "reply_destroy"
-
+  #get 'reply_destroy2/:reply_id' => "showme#reply_destroy", as: "reply_destroy"
   # 댓글 수정하기
   get 'reply_edit/:reply_id' => "showme#reply_edit", as: "reply_edit"
   post 'reply_update/:reply_id' => "showme#reply_update"
