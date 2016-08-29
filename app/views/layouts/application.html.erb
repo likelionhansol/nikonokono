@@ -42,10 +42,9 @@
         </footer>
 
         <script>
-
-        /* select 시작 */
+        var isLoading;
         $(document).ready(function() {
-          var isLoading = true;
+          isLoading = true;
           getCurrentPos();
           $('#ass').click(function(){
             if (isLoading) {
@@ -91,6 +90,7 @@
           $('select').material_select();
           $('.modal-trigger').leanModal();
            $(".button-collapse").sideNav();
+
         });
         </script>
     </body>

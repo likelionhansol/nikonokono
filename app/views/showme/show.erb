@@ -139,7 +139,7 @@
           </td>
         </tr>
       <% end %>
-      <tr  id="reply_<%= @post.id %>"/>
+      <tr id="reply_<%= @post.id %>"/>
     </div>
   </tbody>
 </table>
@@ -209,8 +209,6 @@
       var post_content = $("#content_" + post_id).val();
 
 
-
-
       $.ajax({
         method: "POST",
         url: "/showme/reply",
@@ -223,9 +221,6 @@
               '  <td>' +post_email +'</td>' +
               '  <td>'+ post_content+'</td>' +
               '  <td>	less than a minute 전</td>'+
-
-
-
             '  </tr>'
           );
 
