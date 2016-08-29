@@ -143,6 +143,7 @@ class ShowmeController < ApplicationController
     redirect_to "/showme/index"
   end
 
+  # 댓글 작성
   def reply
     new_reply = Reply.new
     new_reply.content = params[:reply_content]
