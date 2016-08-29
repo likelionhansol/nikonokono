@@ -41,6 +41,20 @@ footer {
   vertical-align: middle !important;
 }
 
+/* cmap */
+#map {
+  width: 100%;
+  height: 600px;
+}
+.material-icons.green { color: #4caf50; }
+
+.card-hide {
+  display: none;
+}
+
+.text_amber {
+  color: #ffd54f;
+}
 ::-webkit-input-placeholder {
   font-size: 0.8em;
 }

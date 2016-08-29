@@ -1,24 +1,5 @@
-<ul id="slide-out" class="side-nav">
-  <li><div class="userView">
-    <a href="#!name"><span class="white-text name">John Doe</span></a>
-    <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-  </div></li>
-  <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-  <li><a href="#!">Second Link</a></li>
-  <li><div class="divider"></div></li>
-  <li><a class="subheader">Subheader</a></li>
-  <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-</ul>
-<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
-
-
-<div id="map_view">
-  <div>
-    <h1 style="margin-top:30px; margin-bottom:30px;"><b>내 주변 코인노래방</b></h1>
-    <div id="map" style="width:100%;height:600px;"></div>
-    <div id="console" style="width:500px; border:5px; font-size:20px"></div>
-  </div>
-</div>
+<div id="map"></div>
+<div id="console" style="width:500px; border:5px; font-size:20px"></div>
 
 <div id="content">
   <% @infoHashArray.each do |i| %>
@@ -92,28 +73,48 @@
       var modal_id = 'modal' + '<%= index+1 %>';
       function modal_trigger(s) {
         var ss = s+1;
-        $('#modal'+ss).leanModal({
-          starting_top: '40%' // Starting top style attribute
-        }).openModal();
+        $('#modal'+ss).openModal();
       }
+
       var modalcontent = [
-        '<div class="modal" id="' + modal_id + '">',
-        '<div class="col s12 m6">',
-          '<div class="card amber darken-1">',
-            '<div class="card-content white-text">',
-              '<span class="card-title">' + title + '</span>',
+        '<div class="modal" id="' + modal_id + '"style="max-height: 90%;  background-color: transparent;">',
+          '<div class="card card-hide"  style="background-color: transparent; display: block; margin: 0px; border-radius: 5px; box-shadow: 0px;">',
+            '<div class="teal">',
+            '<div class="card-title white-text">',
+            '<div class="row" margin:0;>',
+            '<div class="col s12" >',
+              '<span style="font-weight: bold; padding-left:10px;">' + title + '</span>',
+              '</div>',
+              '</div>',
+              '</div>',
+              '</div>',
+              '<div class="card-content teal lighten-5" style="margin-top:-20px;">',
+              '</div>',
+              '<div class="card-content indigo lighten-5" style="padding: 5px 10px; margin-top: 12px;">',
+              '<div class="row">',
+              '<div class="col s12">',
+              '<span><i class="material-icons green-text text-darken-1 cta-icon">phone</i> &nbsp;'+ telephone +' </span>',
+              '</div>',
+              '</div>',
+              '</div>',
+              '<div class="card-content white" style="padding: 5px 10px;">',
+              '</div>',
+              '<div class="card-content grey lighten-4 padding: 5px 10px;">',
+              '<div class="row">',
+              '<div class="col s12">',
               '<p>주소 : ' + address + ' </p>',
-              '<p>도로명주소 : '+ roadAddress +' </p>',
+              '<p>도로명 주소 : '+ roadAddress +' </p>',
               '<p>설명 : '+ description +' </p>',
-              '<p>연락처 : '+ telephone +' </p>',
-            '</div>',
-            '<div class="card-action" teal>',
-              '<a href="#">This is a link</a>',
-              '<a href="#">This is a link</a>',
-            '</div>',
+              '</div>',
+              '</div>',
+              '</div>',
+              '<div class="card-content teal lighten-5" style="padding: 20px 10px; margin-top:12px;">',
+              '</div>',
+              '<div class="card-content teal" style="padding-bottom: 6px;">',
+                '<div class="row" style="width:100%; margin:0;"><div class="col-end"><a href="#" class="right modal-close"><i class="material-icons text_amber">done</i></a></div></div>',
+              '</div>',
           '</div>',
-        '</div>',
-        '</div>'
+          '</div>'
       ].join('');
       // 배열에 추가
       markers.push(marker);

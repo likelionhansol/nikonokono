@@ -10,29 +10,42 @@
         <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
     </head>
     <body>
+      <main>
       <div class="navbar-fixed">
       <nav>
-        <div class="nav-wrapper">
-          <a href="/showme/index" class="brand-logo"><%= image_tag "nikonokono.bmp", height: '64', width: '200' %></a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-            <li id="ass"></li>
-            <li><a href="/showme/index">쇼미더 코인</a></li>
-            <% if user_signed_in? %>
-              <li><%= current_user.email %></li>
-              <li><%= link_to "로그아웃", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
-            <% else %>
-              <li><%= link_to "로그인", new_user_session_path %></li>
-              <li><%= link_to "회원가입", new_user_registration_path %></li>
-            <% end %>
+        <div class="nav-wrapper indigo">
+          <a href="/home/index" class="brand-logo center"><%= image_tag "NICONOCON-logo.png", height: '94', width: '300' %></a>
+
+          <ul class="left hide-on-med-and-down">
+            <li><a href="#"><i data-activates="slide-out" class="material-icons button-collapse">more_vert</i></a></li>
           </ul>
-        </div>
+          <ul class="right hide-on-med-and-down">
+          <li id="ass"></li>
+          <li><a href="/showme/index">쇼미더 코인</a></li>
+        </ul>
+          </div>
       </nav>
     </div>
+    <ul id="slide-out" class="side-nav">
+      <li><div class="userView center">
+        <%= image_tag "sub_logo.png", width: '200', height: '70'%>
+      </div>
+      </li>
+      <% if user_signed_in? %>
+        <li><%= current_user.email %></li>
+        <li><%= link_to "로그아웃", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
+      <% else %>
+        <li><%= link_to "로그인", new_user_session_path %></li>
+        <li><%= link_to "회원가입", new_user_registration_path %></li>
+      <% end %>
+      <li><div class="divider"></div></li>
+    </ul>
        <p class="notice"><%= notice %></p>
        <p class="alert"><%= alert %></p>
         <%= yield %>
-        <footer class="page-footer">
+      </main>
+        <footer class="page-footer indigo">
           <div class="footer-copyright">
             <div class="container">
             © 2016 Hansung University & LikeLion Copyright.
