@@ -2,27 +2,36 @@
 <html>
     <head>
         <title>코인 노래방 찾는 니코노코노</title>
-        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= stylesheet_link_tag    'application', media: 'all' %>
+        <%= javascript_include_tag 'application' %>
         <%= csrf_meta_tags %>
+        <!-- jQuery CDN파일 추가 -->
         <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=h40urbpdCMGXC07cN0rf"></script>
+        <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
     </head>
     <body>
-      <main>
       <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper">
-          <a href="/home/index" class="brand-logo">Logo</a>
+          <a href="/showme/index" class="brand-logo"><%= image_tag "nikonokono.bmp", height: '64', width: '200' %></a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li id="ass"><a id="abc" href="#">코인 노래방 찾기</a></li>
+
+            <li id="ass"></li>
             <li><a href="/showme/index">쇼미더 코인</a></li>
-            <li><a href="/users/sign_out">로갓</a></li>
+            <% if user_signed_in? %>
+              <li><%= current_user.email %></li>
+              <li><%= link_to "로그아웃", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %></li>
+            <% else %>
+              <li><%= link_to "로그인", new_user_session_path %></li>
+              <li><%= link_to "회원가입", new_user_registration_path %></li>
+            <% end %>
           </ul>
         </div>
       </nav>
     </div>
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
         <%= yield %>
-      </main>
         <footer class="page-footer">
           <div class="footer-copyright">
             <div class="container">
@@ -33,6 +42,7 @@
         </footer>
 
         <script>
+
         /* select 시작 */
         $(document).ready(function() {
           var isLoading = true;
@@ -42,6 +52,7 @@
               alert("위치정보를 받아오는 중입니다...");
             }
           });
+
           function getCurrentPos() {
             if(!navigator.geolocation) {
               alert("브라우저에서 지오로케이션 지원 x");
@@ -64,15 +75,19 @@
                 break;
                 case err.TIMEOUT:
                   msg = "시간초과";
+                  console.log("time out");
                 break;
                 case err.UNKNOWN_ERROR:
                   msg = "알 수 없는 오류 발생";
                 break;
               }
               output.innerHTML = "<p>Locating...</p>";
+
             }
+
             navigator.geolocation.getCurrentPosition(success, fail);  //현재 위치 정보를 조사하고 성공 실패 했을시 호출되는 함수 설정
           }
+
           $('select').material_select();
           $('.modal-trigger').leanModal();
            $(".button-collapse").sideNav();

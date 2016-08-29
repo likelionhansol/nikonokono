@@ -33,6 +33,14 @@ footer {
   background-color: #fff;
 }
 
+.go-center {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
 ::-webkit-input-placeholder {
   font-size: 0.8em;
 }

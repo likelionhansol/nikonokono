@@ -17,14 +17,17 @@ ActiveRecord::Schema.define(version: 20160826044029) do
     t.string   "title"
     t.text     "content"
     t.integer  "user_id"
+    t.string   "link_select"
     t.string   "video_url"
+    t.string   "ytb_key"
+    t.string   "sc_link"
     t.string   "singer"
     t.string   "song"
-    t.integer  "hit",        default: 0
-    t.integer  "reconum",    default: 0
-    t.integer  "initNum",    default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "hit",         default: 0
+    t.integer  "reconum",     default: 0
+    t.integer  "initNum",     default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id"
