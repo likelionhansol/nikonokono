@@ -196,19 +196,20 @@
             console.log(msg);
             // 댓글 추가
             $("#reply_" + post_id).append(
-
                 '  <td>' +post_email +'</td>' +
                 '  <td>'+ post_content+'</td>' +
                 '  <td>	less than a minute 전</td>'+
                 '  <td>'+
+                '<% if @post.replies.all.size == 0 %>'+
+                '<%= link_to '[수정]', reply_edit_path(1)%>'+
+                '<%= link_to ' [삭제]', reply_destroy_path(1), method: :delete, data: { confirm: '글을 지우시겠습니까?' } %>'+
+                '<% else %>'+
                 '<%= link_to '[수정]', reply_edit_path(@post.replies.last.id+1)%>'+
                 '<%= link_to ' [삭제]', reply_destroy_path(@post.replies.last.id+1), method: :delete, data: { confirm: '글을 지우시겠습니까?' } %>'+
+                '<% end %>'+
                 '</td>'+
                 '</tr>'
               );
-            }
-
-            $("#content_" + post_id).val("");
             alert("리플이 작성되었습니다." +'<%= @post.replies.last.id %>');
           },
           error: function(err) {
