@@ -1,5 +1,5 @@
 class ShowmeController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_post, only: [:show, :edit, :update, :destroy, :reconum]
 
   def index
@@ -18,7 +18,13 @@ class ShowmeController < ApplicationController
   def create
     @post = Post.new
     @post.title = params[:title]
-    @post.video_url = params[:video_url]
+    @post.link_select = params[:link_select]
+      @post.video_url = params[:video_url]
+    if @post.link_select == 'youtube'
+      @post.ytb_key = @post.video_url.split("=").at(1)
+    else
+      @post.sc_link = @post.video_url
+    end
     @post.content = params[:content]
     @post.singer = params[:singer]
     @post.song = params[:song]
@@ -31,6 +37,18 @@ class ShowmeController < ApplicationController
         format.html { render :new }
       end
     end
+
+    # @link_sel = params[:link_select]
+    # if @link_sel == 'youtube'
+    #   @ytb_url = params[:video_url]
+    #   @ytb_key = @ytb_url.split("=").at(1)
+    #
+    #   puts ("youtube ++++++++++++++++++++ " + @ytb_key)
+    # else
+    #   @sc_url = params[:video_url]
+    #   puts ("soundcloud ++++++++++++++++++++ " + @sc_url)
+    # end
+
   end
 
   # 글을 쓰는 곳
@@ -56,11 +74,11 @@ class ShowmeController < ApplicationController
    #@post = Post.find(params[:post_id])
    @recommend = Recommend.new #따로 이메일은 확인하기 위한 DB
 
-   respond_to do |format|
+  # respond_to do |format|
 
    if current_user.email == @post.user.email # 자신의 글인지 아닌지 판단
-     format.html { redirect_to "/showme/index", notice: '자신의 글은 추천할 수 없습니다.'}
-
+    # format.html { redirect_to "/showme/index", notice: '자신의 글은 추천할 수 없습니다.'}
+    redirect_to back
    else
       if @post.initNum == 0 #-> default = 0
                                   #
@@ -71,7 +89,7 @@ class ShowmeController < ApplicationController
         @recommend.save
         @post.save
 
-        format.html { redirect_to "/showme/index", notice: '추천 성공!' }
+        #format.html { redirect_to "/showme/index", notice: '추천 성공!' }
 
       else
         @reco = Recommend.all #recommend에 저장되어 있는 DB 갖고오기
@@ -89,7 +107,7 @@ class ShowmeController < ApplicationController
 
         if reco_bool == 1
 
-          format.html { redirect_to "/showme/index", notice: '이미 추천한 글 입니다.'}
+        #  format.html { redirect_to "/showme/index", notice: '이미 추천한 글 입니다.'}
         else
           @recommend.post_id = @post.id
           @recommend.email = current_user.email
@@ -97,10 +115,10 @@ class ShowmeController < ApplicationController
           @post.save
           @recommend.save
 
-          format.html { redirect_to "/showme/index", notice: '추천 성공!' }
+        #  format.html { redirect_to "/showme/index", notice: '추천 성공!' }
         end
       end
-   end
+  # end
    end
   end
 

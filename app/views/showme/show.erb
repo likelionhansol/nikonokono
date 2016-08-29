@@ -42,8 +42,9 @@
 </div>
 </div>
 </div>
-
+</div>
   <!-- 제목,조회수 -->
+  <div class="container">
   <div class="row">
     <div class="col s3">
       <span>글번호 :</span> <%= @post.id %></p>
@@ -70,29 +71,37 @@
 
   <!-- 추천수 -->
   <div class="row">
-    <div class="col s5">
-     <i class="fa fa-thumbs-up" aria-hidden="true"></i> 추천수: <span><%= @post.reconum %></span> &emsp;
+    <div class="col s7">
+     <i class="fa fa-heart" aria-hidden="true"></i> 추천수: <span><%= @post.reconum %></span> &emsp;
     </div>
-    <div class="col offset-s4 s3">
+    <div class="col offset-s3 s2 right">
       <% if user_signed_in? %>
-       <%= link_to '[수정]', edit_path  if @post.updatable_by? current_user %>&nbsp;
-       <%= link_to '[삭제]', destroy_path, method: :delete, data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
+       <%= link_to '수정', edit_path, class: "col s2" if @post.updatable_by? current_user %>&nbsp;
+       <%= link_to '삭제', destroy_path, class: "col s2", method: :delete, data: { confirm: 'Are you sure?' } if @post.deletable_by? current_user %>
       <% end %>
     </div>
   </div>
 
   <!-- Youtube 부분 -->
-  <div class="row">
-    <iframe style="width: 100%; height: 500px;" src="https://www.youtube.com/embed/HlxqEHEVoKc" frameborder="0" allowfullscreen></iframe>
+
+
+  <div id="iframetest" style="cursor: pointer;">iframe test </div>
+  <% if @post.link_select == 'youtube' %>
+  <div class="row" id="goyoutube">
+
   </div>
+  <% else %>
+  <div class="row" id="gosoundcloud">
 
-
+  </div>
+  <% end %>
   <!-- 추천을 위한 코드 -->
+
     <div class="row">
       <div class="col offset-s5 s1 valign center-align">
-      <a href="/reconum/<%= @post.id %>">
-        <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
-        <span><%= @post.reconum %></span>
+      <a href="/reconum/<%= @post.id %>" id="likethis">
+        <i id="vv" class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+        <h4><%= @post.reconum %></h4>
       </a>
      </div>
    </div>
@@ -142,27 +151,46 @@
 
 <script>
 
+
   $(function() {  // 페이지가 다 로딩되면 실행하도록 설정
-    $(".reply_submit").click(function() {
-
-      var post_id = this.value;
-      var post_email = &("#email");
-      var post_content = $("#content_" + post_id).val();
-
-      $.ajax({
-        method: "POST",
-        url: "/showme/reply",
-        data: { reply_content: post_content, id_of_post: post_id },
-          success: function() {
-            $("#reply_" + post_id).append("<tr>" + "<td>" +
-                                          "<td>" + "댓글내용:" + post_content + "</td>");
-            $("#content_" + post_id).val("");
-            // alert("리플이 작성되었습니다.");
-          },
-          error: function() {
-            alert("리플이 작성되지 않았습니다.");
-          }
-      });
+    SC.initialize({
+      client_id: '56700de568277ccc7ab1770ef756a8f8'
     });
+    // 넘어온 value 값이 youtube일 경우 youtube embed 삽입 //
+    var iftest = '<embed style="width: 100%; height: 500px;" src="https://www.youtube.com/embed/<%=@post.ytb_key%> frameborder="0" allowfullscreen></embed>';
+    $('#goyoutube').append(iftest);
+
+    // 넘어온 value 값이 soundcloud일 경우 soundcloud iframe 삽입 //
+
+    var track_url = '<%=@post.sc_link%>'; // 루비 변수로 change 예정
+    SC.oEmbed(track_url, { element: document.getElementById('gosoundcloud')}).then(function(oEmbed) {
+      console.log('oEmbed response: ', oEmbed);
+    });
+
+    $('#likethis').click(function(){
+      $('#vv').removeClass('fa-heart-o').addClass('fa-heart');
+
+    });
+    // $(".reply_submit").click(function() {
+    //
+    //   var post_id = this.value;
+    //   var post_email = &("#email");
+    //   var post_content = $("#content_" + post_id).val();
+    //
+    //   $.ajax({
+    //     method: "POST",
+    //     url: "/showme/reply",
+    //     data: { reply_content: post_content, id_of_post: post_id },
+    //       success: function() {
+    //         $("#reply_" + post_id).append("<tr>" + "<td>" +
+    //                                       "<td>" + "댓글내용:" + post_content + "</td>");
+    //         $("#content_" + post_id).val("");
+    //         // alert("리플이 작성되었습니다.");
+    //       },
+    //       error: function() {
+    //         alert("리플이 작성되지 않았습니다.");
+    //       }
+    //   });
+    // });
   });
 </script>

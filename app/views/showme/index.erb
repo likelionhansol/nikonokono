@@ -42,40 +42,55 @@
   </div>
   </div>
 </div>
+<ul class="collection">
+  <% @posts.each do |post| %>
+  <a href="<%= post.id %>">
+    <li class="collection-item avatar">
+      <div class="row">
+        <div class="col s1">
+      <img src="http://img.youtube.com/vi/<%= post.ytb_key %>/default.jpg" alt="http://img.youtube.com/vi/<%= post.ytb_key %>/default.jpg" class="go-center">
+    </div>
+      <div class="col s7">
+      <span class="title"><%= post.title %></span>
+      <p>
+        작성자: <%= post.user.present? ? post.user.email : "null" %> <br>
+         <%= post.singer %>  <%= post.song %>
+      </p>
+    </div>
+    <div class="col s2 center">
+      조회수 : <%= post.hit %>
+      <br>
+      <br>
+      <i class="fa fa-heart-o" aria-hidden="true"></i> <%= post.reconum %>
+    </div>
+    <div class="col s1 offset-s1">
+      <a href="#!" class="secondary-content"><%= time_ago_in_words(post.created_at) %> ago</a>
+    </div>
+
+    </div>
+    </li>
+  </a>
+  <% end %>
+  </ul>
+     <a href="/showme/new" class="right"><button class="btn">글쓰기</button></a>
+  <div class="pagination center-align active">
+  <%= will_paginate @posts, previous_label: '<i class="material-icons">chevron_left</i>', next_label: '<i class="material-icons">chevron_right</i>' %>
+</div>
+  <!-- 글 리스트 번호 목록 -->
+  <ul class="pagination center-align">
+  <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+  <li class="active"><a href="#!">1</a></li>
+  <li class="waves-effect"><a href="#!">2</a></li>
+  <li class="waves-effect"><a href="#!">3</a></li>
+  <li class="waves-effect"><a href="#!">4</a></li>
+  <li class="waves-effect"><a href="#!">5</a></li>
+  <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+</ul>
+
   <h2>게시글</h2>
 
-  <div class="label">
-   <label> Show Me The Coin </label>
-   <a href="/showme/new"><button style="float:right">업로드</button></a>
-  </div>
-  <table class="table highlight">
-    <thead>
-      <tr>
-        <th>글 번호</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>가수</th>
-        <th>노래명</th>
-        <th>조회수</th>
-        <th>추천수</th>
-        <th>작성시간</th>
-      </tr>
-    </thead>
 
-    <tbody>
-      <% @posts.each do |post| %>
-        <tr>
-          <td><%= post.id %></td>
-          <td class="col-md-6 col-xs-6"><a href="<%= post.id %>"><%= post.title %></a></td>
-          <td><%= post.user.present? ? post.user.email : "null" %></td>
-          <td><%= post.singer %></td>
-          <td><%= post.song %></td>
-          <td><%= post.hit %></td>
-          <td><%= post.reconum %></td>
-          <td> <%= time_ago_in_words(post.created_at) %> 전 </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<%= will_paginate @posts, previous_label: '<이전 페이지 ', next_label: ' 다음 페이지>' %>
+
+
+
 </div>
