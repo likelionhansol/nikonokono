@@ -181,10 +181,13 @@
       $(".reply_submit").click(function() {
 
         var post_id = this.value;
-        var post_email = '<%= current_user.email %>';
+        '<% if current_user %>';
+          var post_email = '<%= current_user.email %>';
+        '<% end %>';
         var post_content = $("#content_" + post_id).val();
 
 
+        '<% if current_user %>';
         $.ajax({
           method: "POST",
           url: "/showme/reply",
@@ -209,13 +212,17 @@
                 '</td>'+
                 '</tr>'
               );
-            alert("리플이 작성되었습니다." +'<%= @post.replies.last.id %>');
+            alert("리플이 작성되었습니다.");
           },
           error: function(err) {
             console.log(err);
             alert("리플이 작성되지 않았습니다." + post_content + post_id + post_email);
           }
         });
+        '<% else %>';
+          alert("댓글을 다시려면 로그인하세요!");
+          window.location.href = "/users/sign_in";
+        '<% end %>';
       });
     });
 
@@ -229,7 +236,7 @@
       $.ajax({
         method: "GET",
         url: "/reconum/<%= @post.id %>",
-        data: { reconum: reco},
+        data: { reconum: reco },
 
         success: function() {
           var i = 0;
@@ -242,23 +249,25 @@
             "<% end %>"
           "<% end %>"
 
-          "<% if current_user.email == @post.user.email%>"
-            alert("자신의 글은 추천 불가");
-          "<% else %>"
-            if(i == 0){
-              $("#reco_id").val('<%= @post.reconum+1 %>');
-              alert("추천 성공");
-            }
-            else{
-              alert("이미 추천 하였습니다.");
-            }
+          "<% if current_user %> "
+            "<% if current_user.email == @post.user.email %>"
+              alert("자신의 글은 추천 불가합니다.");
+            "<% else %>"
+              if(i == 0){
+                $("#reco_id").val('<%= @post.reconum+1 %>');
+                alert("추천 성공");
+              }
+              else{
+                alert("이미 추천 하였습니다.");
+              }
+            "<% end %>"
           "<% end %>"
 
 
         },
-        error: function() {
-
-          alert("실패");
+        error: function(err) {
+          alert("추천을 하시려면 로그인하세요.");
+          window.location.href = "users/sign_in";
         }
       });
     });
